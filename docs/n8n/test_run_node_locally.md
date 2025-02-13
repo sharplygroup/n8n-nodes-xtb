@@ -1,0 +1,63 @@
+# Run your node locally [\#](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/\#run-your-node-locally "Permanent link")
+
+You can test your node as you build it by running it in a local n8n instance.
+
+1. Install n8n using npm:
+
+
+
+```<br>npm install n8n -g<br>```
+
+2. When you are ready to test your node, publish it locally:
+
+
+ ```<br># In your node directory<br>npm run build<br>npm link<br>```
+
+3. Install the node into your local n8n instance:
+
+
+```<br># In the nodes directory within your n8n installation<br># node-package-name is the name from the package.json<br>npm link <node-package-name><br>```
+
+
+
+
+
+
+
+Check your directory
+
+
+
+Make sure you run `npm link <node-name>` in the nodes directory within your n8n installation. This can be:
+
+
+
+- `~/.n8n/custom/`
+- `~/.n8n/<your-custom-name>`: if your n8n installation set a different name using `N8N_CUSTOM_EXTENSIONS`.
+
+4. Start n8n:
+
+
+
+```<br>n8n start<br>``` |
+
+5. Open n8n in your browser. You should see your nodes when you search for them in the nodes panel.
+
+
+
+Node names
+
+
+
+Make sure you search using the node name, not the package name. For example, if your npm package name is `n8n-nodes-weather-nodes`, and the package contains nodes named `rain`, `sun`, `snow`, you should search for `rain`, not `weather-nodes`.
+
+
+### Troubleshooting [\#](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/\#troubleshooting "Permanent link")
+
+- There's no `custom` directory in `~/.n8n` local installation.
+
+You have to create `custom` directory manually and run `npm init`
+
+|     |     |
+| --- | --- |
+| ```<br>1<br>2<br>3<br>4<br>``` | ```<br># In ~/.n8n directory run<br>mkdir custom <br>cd custom <br>npm init<br>``` |
