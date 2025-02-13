@@ -16,7 +16,81 @@ The credentials file follows this basic structure:
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>``` | ```<br>import {<br>	IAuthenticateGeneric,<br>	ICredentialTestRequest,<br>	ICredentialType,<br>	INodeProperties,<br>} from 'n8n-workflow';<br>export class ExampleNode implements ICredentialType {<br>	name = 'exampleNodeApi';<br>	displayName = 'Example Node API';<br>	documentationUrl = '';<br>	properties: INodeProperties[] = [<br>		{<br>			displayName: 'API Key',<br>			name: 'apiKey',<br>			type: 'string',<br>			default: '',<br>		},<br>	];<br>	authenticate: IAuthenticateGeneric = {<br>		type: 'generic',<br>		properties: {<br>    		// Can be body, header, qs or auth<br>			qs: {<br>        		// Use the value from `apiKey` above<br>				'api_key': '={{$credentials.apiKey}}'<br>			}<br>		},<br>	};<br>	test: ICredentialTestRequest = {<br>		request: {<br>			baseURL: '={{$credentials?.domain}}',<br>			url: '/bearer',<br>		},<br>	};<br>}<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+``` | ```
+import {
+	IAuthenticateGeneric,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
+export class ExampleNode implements ICredentialType {
+	name = 'exampleNodeApi';
+	displayName = 'Example Node API';
+	documentationUrl = '';
+	properties: INodeProperties[] = [
+		{
+			displayName: 'API Key',
+			name: 'apiKey',
+			type: 'string',
+			default: '',
+		},
+	];
+	authenticate: IAuthenticateGeneric = {
+		type: 'generic',
+		properties: {
+    		// Can be body, header, qs or auth
+			qs: {
+        		// Use the value from `apiKey` above
+				'api_key': '={{$credentials.apiKey}}'
+			}
+		},
+	};
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: '={{$credentials?.domain}}',
+			url: '/bearer',
+		},
+	};
+}
+``` |
 
 ## Parameters [\#](https://docs.n8n.io/integrations/creating-nodes/build/reference/credentials-files/\#parameters "Permanent link")
 
@@ -60,7 +134,27 @@ Object. Defines the authentication methods. Options are:
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>``` | ```<br>authenticate: IAuthenticateGeneric = {<br>	type: 'generic',<br>	properties: {<br>		body: {<br>			username: '={{$credentials.username}}',<br>			password: '={{$credentials.password}}',<br>		},<br>	},<br>};<br>``` |
+| ```
+1
+2
+3
+4
+5
+6
+7
+8
+9
+``` | ```
+authenticate: IAuthenticateGeneric = {
+	type: 'generic',
+	properties: {
+		body: {
+			username: '={{$credentials.username}}',
+			password: '={{$credentials.password}}',
+		},
+	},
+};
+``` |
 
 - `header`: Object. Send authentication data in the request header.
 
@@ -69,7 +163,25 @@ Object. Defines the authentication methods. Options are:
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>``` | ```<br>authenticate: IAuthenticateGeneric = {<br>	type: 'generic',<br>	properties: {<br>		header: {<br>			Authorization: '=Bearer {{$credentials.authToken}}',<br>		},<br>	},<br>};<br>``` |
+| ```
+1
+2
+3
+4
+5
+6
+7
+8
+``` | ```
+authenticate: IAuthenticateGeneric = {
+	type: 'generic',
+	properties: {
+		header: {
+			Authorization: '=Bearer {{$credentials.authToken}}',
+		},
+	},
+};
+``` |
 
 - `qs`: Object. Stands for "query string." Send authentication data in the request query string.
 
@@ -78,7 +190,25 @@ Object. Defines the authentication methods. Options are:
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>``` | ```<br>authenticate: IAuthenticateGeneric = {<br>	type: 'generic',<br>	properties: {<br>		qs: {<br>			token: '={{$credentials.token}}',<br>		},<br>	},<br>};<br>``` |
+| ```
+1
+2
+3
+4
+5
+6
+7
+8
+``` | ```
+authenticate: IAuthenticateGeneric = {
+	type: 'generic',
+	properties: {
+		qs: {
+			token: '={{$credentials.token}}',
+		},
+	},
+};
+``` |
 
 - `auth`: Object. Used for Basic Auth. Requires `username` and `password` as the key names.
 
@@ -87,7 +217,27 @@ Object. Defines the authentication methods. Options are:
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>``` | ```<br>authenticate: IAuthenticateGeneric = {<br>	type: 'generic',<br>	properties: {<br>		auth: {<br>			username: '={{$credentials.username}}',<br>			password: '={{$credentials.password}}',<br>		},<br>	},<br>};<br>``` |
+| ```
+1
+2
+3
+4
+5
+6
+7
+8
+9
+``` | ```
+authenticate: IAuthenticateGeneric = {
+	type: 'generic',
+	properties: {
+		auth: {
+			username: '={{$credentials.username}}',
+			password: '={{$credentials.password}}',
+		},
+	},
+};
+``` |
 
 
 ### `test` [\#](https://docs.n8n.io/integrations/creating-nodes/build/reference/credentials-files/\#test "Permanent link")
@@ -96,4 +246,18 @@ Provide a `request` object containing a URL and authentication type that n8n can
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>5<br>6<br>``` | ```<br>test: ICredentialTestRequest = {<br>		request: {<br>			baseURL: '={{$credentials?.domain}}',<br>			url: '/bearer',<br>		},<br>	};<br>``` |
+| ```
+1
+2
+3
+4
+5
+6
+``` | ```
+test: ICredentialTestRequest = {
+		request: {
+			baseURL: '={{$credentials?.domain}}',
+			url: '/bearer',
+		},
+	};
+``` |

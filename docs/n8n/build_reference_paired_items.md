@@ -12,4 +12,24 @@ Start by reading [Item linking concepts](https://docs.n8n.io/data/data-mapping/d
 
 If you need to handle item linking manually, do this by setting `pairedItem` on each item your node returns:
 
-```<br>// Use the pairedItem information of the incoming item<br>newItem = {<br>	"json": { . . . },<br>	"pairedItem": {<br>		"item": item.pairedItem,<br>		// Optional: choose the input to use<br>		// Set this if your node combines multiple inputs<br>		"input": 0<br>};<br>// Or set the index manually<br>newItem = {<br>		"json": { . . . }<br>		"pairedItem": {<br>			"item": i,<br>			// Optional: choose the input to use<br>			// Set this if your node combines multiple inputs<br>			"input": 0<br>		},<br>};<br>```
+```
+// Use the pairedItem information of the incoming item
+newItem = {
+	"json": { . . . },
+	"pairedItem": {
+		"item": item.pairedItem,
+		// Optional: choose the input to use
+		// Set this if your node combines multiple inputs
+		"input": 0
+};
+// Or set the index manually
+newItem = {
+		"json": { . . . }
+		"pairedItem": {
+			"item": i,
+			// Optional: choose the input to use
+			// Set this if your node combines multiple inputs
+			"input": 0
+		},
+};
+```

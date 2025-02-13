@@ -23,11 +23,18 @@ Specifies an icon for a particular node. n8n recommends uploading your own image
 You can provide the icon file name as a string, or as an object to handle different icons for light and dark modes.
 If the icon works in both light and dark modes, use a string that starts with `file:`, indicating the path to the icon file. For example:
 
-```<br>icon: 'file:exampleNodeIcon.svg'<br>``` |
+```
+icon: 'file:exampleNodeIcon.svg'
+``` |
 
 To provide different icons for light and dark modes, use an object with `light` and `dark` properties. For example:
 
- ```<br>icon: { <br>  light: 'file:exampleNodeIcon.svg', <br>  dark: 'file:exampleNodeIcon.dark.svg' <br>}<br>```
+ ```
+icon: { 
+  light: 'file:exampleNodeIcon.svg', 
+  dark: 'file:exampleNodeIcon.dark.svg' 
+}
+```
 
 n8n recommends using an SVG for your node icon, but you can also use PNG. If using PNG, the icon resolution should be 60x60px. Node icons should have a square or near-square aspect ratio.
 
@@ -149,6 +156,24 @@ These objects define optional parameters. n8n displays them under **Additional F
 
 The objects must include:
 
-```<br>displayName: 'Additional Fields',<br>name: 'additionalFields',<br>// The UI element type<br>type: ''<br>placeholder: 'Add Field',<br>default: {},<br>displayOptions: {<br>  // Set which resources and operations this field is available for<br>  show: {<br>    resource: [<br>      // Resource names<br>    ],<br>    operation: [<br>      // Operation names<br>    ]<br>  },<br>}<br>```
+```
+displayName: 'Additional Fields',
+name: 'additionalFields',
+// The UI element type
+type: ''
+placeholder: 'Add Field',
+default: {},
+displayOptions: {
+  // Set which resources and operations this field is available for
+  show: {
+    resource: [
+      // Resource names
+    ],
+    operation: [
+      // Operation names
+    ]
+  },
+}
+```
 
 For more information about UI element types, refer to [UI elements](https://docs.n8n.io/integrations/creating-nodes/build/reference/ui-elements/).

@@ -37,7 +37,13 @@ Clone the repository and navigate into the directory:
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>``` | ```<br>git clone https://github.com/<your-organization>/<your-repo-name>.git n8n-nodes-friendgrid<br>cd n8n-nodes-friendgrid<br>``` |
+| ```
+1
+2
+``` | ```
+git clone https://github.com/<your-organization>/<your-repo-name>.git n8n-nodes-friendgrid
+cd n8n-nodes-friendgrid
+``` |
 
 
 The starter contains example nodes and credentials. Delete the following directories and files:
@@ -63,7 +69,11 @@ Now install the project dependencies:
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>``` | ```<br>npm i<br>``` |
+| ```
+1
+``` | ```
+npm i
+``` |
 
 ### Step 2: Add an icon [\#](https://docs.n8n.io/integrations/creating-nodes/build/programmatic-style-node/\#step-2-add-an-icon "Permanent link")
 
@@ -87,7 +97,35 @@ Start by adding the import statements:
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>``` | ```<br>import {<br>	IExecuteFunctions,<br>} from 'n8n-core';<br>import {<br>	IDataObject,<br>	INodeExecutionData,<br>	INodeType,<br>	INodeTypeDescription,<br>} from 'n8n-workflow';<br>import {<br>	OptionsWithUri,<br>} from 'request';<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+``` | ```
+import {
+	IExecuteFunctions,
+} from 'n8n-core';
+import {
+	IDataObject,
+	INodeExecutionData,
+	INodeType,
+	INodeTypeDescription,
+} from 'n8n-workflow';
+import {
+	OptionsWithUri,
+} from 'request';
+``` |
 
 #### Step 3.2: Create the main class [\#](https://docs.n8n.io/integrations/creating-nodes/build/programmatic-style-node/\#step-32-create-the-main-class "Permanent link")
 
@@ -99,7 +137,31 @@ Make sure the class name and the file name match. For example, given a class `Fr
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>``` | ```<br>export class FriendGrid implements INodeType {<br>	description: INodeTypeDescription = {<br>		// Basic node details will go here<br>		properties: [<br>			// Resources and operations will go here<br>		],<br>	};<br>	// The execute method will go here<br>	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {<br>	}<br>}<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+``` | ```
+export class FriendGrid implements INodeType {
+	description: INodeTypeDescription = {
+		// Basic node details will go here
+		properties: [
+			// Resources and operations will go here
+		],
+	};
+	// The execute method will go here
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+	}
+}
+``` |
 
 #### Step 3.3: Add node details [\#](https://docs.n8n.io/integrations/creating-nodes/build/programmatic-style-node/\#step-33-add-node-details "Permanent link")
 
@@ -107,7 +169,43 @@ All programmatic nodes need some basic parameters, such as their display name an
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>``` | ```<br>displayName: 'FriendGrid',<br>name: 'friendGrid',<br>icon: 'file:friendGrid.svg',<br>group: ['transform'],<br>version: 1,<br>description: 'Consume SendGrid API',<br>defaults: {<br>	name: 'FriendGrid',<br>},<br>inputs: ['main'],<br>outputs: ['main'],<br>credentials: [<br>	{<br>		name: 'friendGridApi',<br>		required: true,<br>	},<br>],<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+``` | ```
+displayName: 'FriendGrid',
+name: 'friendGrid',
+icon: 'file:friendGrid.svg',
+group: ['transform'],
+version: 1,
+description: 'Consume SendGrid API',
+defaults: {
+	name: 'FriendGrid',
+},
+inputs: ['main'],
+outputs: ['main'],
+credentials: [
+	{
+		name: 'friendGridApi',
+		required: true,
+	},
+],
+``` |
 
 n8n uses some of the properties set in `description` to render the node in the Editor UI. These properties are `displayName`, `icon`, and `description`.
 
@@ -117,7 +215,39 @@ The resource object defines the API resource that the node uses. In this tutoria
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>``` | ```<br>{<br>	displayName: 'Resource',<br>	name: 'resource',<br>	type: 'options',<br>	options: [<br>		{<br>			name: 'Contact',<br>			value: 'contact',<br>		},<br>	],<br>	default: 'contact',<br>	noDataExpression: true,<br>	required: true,<br>	description: 'Create a new contact',<br>},<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+``` | ```
+{
+	displayName: 'Resource',
+	name: 'resource',
+	type: 'options',
+	options: [
+		{
+			name: 'Contact',
+			value: 'contact',
+		},
+	],
+	default: 'contact',
+	noDataExpression: true,
+	required: true,
+	description: 'Create a new contact',
+},
+``` |
 
 `type` controls which UI element n8n displays for the resource, and tells n8n what type of data to expect from the user. `options` results in n8n adding a dropdown that allows users to choose one option. Refer to [Node UI elements](https://docs.n8n.io/integrations/creating-nodes/build/reference/ui-elements/) for more information.
 
@@ -129,7 +259,91 @@ Add the following to the `properties` array, after the `resource` object:
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>``` | ```<br>{<br>	displayName: 'Operation',<br>	name: 'operation',<br>	type: 'options',<br>	displayOptions: {<br>		show: {<br>			resource: [<br>				'contact',<br>			],<br>		},<br>	},<br>	options: [<br>		{<br>			name: 'Create',<br>			value: 'create',<br>			description: 'Create a contact',<br>			action: 'Create a contact',<br>		},<br>	],<br>	default: 'create',<br>	noDataExpression: true,<br>},<br>{<br>	displayName: 'Email',<br>	name: 'email',<br>	type: 'string',<br>	required: true,<br>	displayOptions: {<br>		show: {<br>			operation: [<br>				'create',<br>			],<br>			resource: [<br>				'contact',<br>			],<br>		},<br>	},<br>	default:'',<br>	placeholder: 'name@email.com',<br>	description:'Primary email for the contact',<br>},<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+``` | ```
+{
+	displayName: 'Operation',
+	name: 'operation',
+	type: 'options',
+	displayOptions: {
+		show: {
+			resource: [
+				'contact',
+			],
+		},
+	},
+	options: [
+		{
+			name: 'Create',
+			value: 'create',
+			description: 'Create a contact',
+			action: 'Create a contact',
+		},
+	],
+	default: 'create',
+	noDataExpression: true,
+},
+{
+	displayName: 'Email',
+	name: 'email',
+	type: 'string',
+	required: true,
+	displayOptions: {
+		show: {
+			operation: [
+				'create',
+			],
+			resource: [
+				'contact',
+			],
+		},
+	},
+	default:'',
+	placeholder: 'name@email.com',
+	description:'Primary email for the contact',
+},
+``` |
 
 #### Step 3.6: Add optional fields [\#](https://docs.n8n.io/integrations/creating-nodes/build/programmatic-style-node/\#step-36-add-optional-fields "Permanent link")
 
@@ -141,7 +355,71 @@ For this tutorial, you'll add two additional fields, to allow users to enter the
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>``` | ```<br>{<br>	displayName: 'Additional Fields',<br>	name: 'additionalFields',<br>	type: 'collection',<br>	placeholder: 'Add Field',<br>	default: {},<br>	displayOptions: {<br>		show: {<br>			resource: [<br>				'contact',<br>			],<br>			operation: [<br>				'create',<br>			],<br>		},<br>	},<br>	options: [<br>		{<br>			displayName: 'First Name',<br>			name: 'firstName',<br>			type: 'string',<br>			default: '',<br>		},<br>		{<br>			displayName: 'Last Name',<br>			name: 'lastName',<br>			type: 'string',<br>			default: '',<br>		},<br>	],<br>},<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+``` | ```
+{
+	displayName: 'Additional Fields',
+	name: 'additionalFields',
+	type: 'collection',
+	placeholder: 'Add Field',
+	default: {},
+	displayOptions: {
+		show: {
+			resource: [
+				'contact',
+			],
+			operation: [
+				'create',
+			],
+		},
+	},
+	options: [
+		{
+			displayName: 'First Name',
+			name: 'firstName',
+			type: 'string',
+			default: '',
+		},
+		{
+			displayName: 'Last Name',
+			name: 'lastName',
+			type: 'string',
+			default: '',
+		},
+	],
+},
+``` |
 
 ### Step 4: Add the execute method [\#](https://docs.n8n.io/integrations/creating-nodes/build/programmatic-style-node/\#step-4-add-the-execute-method "Permanent link")
 
@@ -153,13 +431,112 @@ Add the following the `execute` method in the `FriendGrid.node.ts`:
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>``` | ```<br>// Handle data coming from previous nodes<br>const items = this.getInputData();<br>let responseData;<br>const returnData = [];<br>const resource = this.getNodeParameter('resource', 0) as string;<br>const operation = this.getNodeParameter('operation', 0) as string;<br>// For each item, make an API call to create a contact<br>for (let i = 0; i < items.length; i++) {<br>	if (resource === 'contact') {<br>		if (operation === 'create') {<br>			// Get email input<br>			const email = this.getNodeParameter('email', i) as string;<br>			// Get additional fields input<br>			const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;<br>			const data: IDataObject = {<br>				email,<br>			};<br>			Object.assign(data, additionalFields);<br>			// Make HTTP request according to https://sendgrid.com/docs/api-reference/<br>			const options: OptionsWithUri = {<br>				headers: {<br>					'Accept': 'application/json',<br>				},<br>				method: 'PUT',<br>				body: {<br>					contacts: [<br>						data,<br>					],<br>				},<br>				uri: `https://api.sendgrid.com/v3/marketing/contacts`,<br>				json: true,<br>			};<br>			responseData = await this.helpers.requestWithAuthentication.call(this, 'friendGridApi', options);<br>			returnData.push(responseData);<br>		}<br>	}<br>}<br>// Map data to n8n data structure<br>return [this.helpers.returnJsonArray(returnData)];<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+``` | ```
+// Handle data coming from previous nodes
+const items = this.getInputData();
+let responseData;
+const returnData = [];
+const resource = this.getNodeParameter('resource', 0) as string;
+const operation = this.getNodeParameter('operation', 0) as string;
+// For each item, make an API call to create a contact
+for (let i = 0; i < items.length; i++) {
+	if (resource === 'contact') {
+		if (operation === 'create') {
+			// Get email input
+			const email = this.getNodeParameter('email', i) as string;
+			// Get additional fields input
+			const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
+			const data: IDataObject = {
+				email,
+			};
+			Object.assign(data, additionalFields);
+			// Make HTTP request according to https://sendgrid.com/docs/api-reference/
+			const options: OptionsWithUri = {
+				headers: {
+					'Accept': 'application/json',
+				},
+				method: 'PUT',
+				body: {
+					contacts: [
+						data,
+					],
+				},
+				uri: `https://api.sendgrid.com/v3/marketing/contacts`,
+				json: true,
+			};
+			responseData = await this.helpers.requestWithAuthentication.call(this, 'friendGridApi', options);
+			returnData.push(responseData);
+		}
+	}
+}
+// Map data to n8n data structure
+return [this.helpers.returnJsonArray(returnData)];
+``` |
 
 Note the following lines of this code:
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>``` | ```<br>const items = this.getInputData();<br>... <br>for (let i = 0; i < items.length; i++) {<br>	...<br>	const email = this.getNodeParameter('email', i) as string;<br>	...<br>}<br>``` |
+| ```
+1
+2
+3
+4
+5
+6
+7
+``` | ```
+const items = this.getInputData();
+... 
+for (let i = 0; i < items.length; i++) {
+	...
+	const email = this.getNodeParameter('email', i) as string;
+	...
+}
+``` |
 
 Users can provide data in two ways:
 
@@ -176,7 +553,76 @@ Add the following to `FriendGridApi.credentials.ts`
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>``` | ```<br>import {<br>	IAuthenticateGeneric,<br>	ICredentialTestRequest,<br>	ICredentialType,<br>	INodeProperties,<br>} from 'n8n-workflow';<br>export class FriendGridApi implements ICredentialType {<br>	name = 'friendGridApi';<br>	displayName = 'FriendGrid API';<br>	properties: INodeProperties[] = [<br>		{<br>			displayName: 'API Key',<br>			name: 'apiKey',<br>			type: 'string',<br>			default: '',<br>		},<br>	];<br>	authenticate: IAuthenticateGeneric = {<br>		type: 'generic',<br>		properties: {<br>			headers: {<br>				Authorization: '=Bearer {{$credentials.apiKey}}',<br>			},<br>		},<br>	};<br>	test: ICredentialTestRequest = {<br>		request: {<br>			baseURL: 'https://api.sendgrid.com/v3',<br>			url: '/marketing/contacts',<br>		},<br>	};<br>}<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+``` | ```
+import {
+	IAuthenticateGeneric,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
+export class FriendGridApi implements ICredentialType {
+	name = 'friendGridApi';
+	displayName = 'FriendGrid API';
+	properties: INodeProperties[] = [
+		{
+			displayName: 'API Key',
+			name: 'apiKey',
+			type: 'string',
+			default: '',
+		},
+	];
+	authenticate: IAuthenticateGeneric = {
+		type: 'generic',
+		properties: {
+			headers: {
+				Authorization: '=Bearer {{$credentials.apiKey}}',
+			},
+		},
+	};
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://api.sendgrid.com/v3',
+			url: '/marketing/contacts',
+		},
+	};
+}
+``` |
 
 For more information about credentials files and options, refer to [Credentials file](https://docs.n8n.io/integrations/creating-nodes/build/reference/credentials-files/).
 
@@ -188,7 +634,49 @@ Add the following code to the JSON file:
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>``` | ```<br>{<br>	"node": "n8n-nodes-base.FriendGrid",<br>	"nodeVersion": "1.0",<br>	"codexVersion": "1.0",<br>	"categories": [<br>		"Miscellaneous"<br>	],<br>	"resources": {<br>		"credentialDocumentation": [<br>			{<br>				"url": ""<br>			}<br>		],<br>		"primaryDocumentation": [<br>			{<br>				"url": ""<br>			}<br>		]<br>	}<br>}<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+``` | ```
+{
+	"node": "n8n-nodes-base.FriendGrid",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": [
+		"Miscellaneous"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": ""
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": ""
+			}
+		]
+	}
+}
+``` |
 
 For more information on these parameters, refer to [Node codex files](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-codex-files/).
 
@@ -198,7 +686,99 @@ Your npm package details are in the `package.json` at the root of the project. I
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>``` | ```<br>{<br>	// All node names must start with "n8n-nodes-"<br>	"name": "n8n-nodes-friendgrid",<br>	"version": "0.1.0",<br>	"description": "n8n node to create contacts in SendGrid",<br>	"keywords": [<br>		// This keyword is required for community nodes<br>		"n8n-community-node-package"<br>	],<br>	"license": "MIT",<br>	"homepage": "https://n8n.io",<br>	"author": {<br>		"name": "Test",<br>		"email": "test@example.com"<br>	},<br>	"repository": {<br>		"type": "git",<br>		// Change the git remote to your own repository<br>		// Add the new URL here<br>		"url": "git+<your-repo-url>"<br>	},<br>	"main": "index.js",<br>	"scripts": {<br>		// don't change<br>	},<br>	"files": [<br>		"dist"<br>	],<br>	// Link the credentials and node<br>	"n8n": {<br>		"n8nNodesApiVersion": 1,<br>		"credentials": [<br>			"dist/credentials/FriendGridApi.credentials.js"<br>		],<br>		"nodes": [<br>			"dist/nodes/FriendGrid/FriendGrid.node.js"<br>		]<br>	},<br>	"devDependencies": {<br>		// don't change<br>	},<br>	"peerDependencies": {<br>		// don't change<br>	}<br>}<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+``` | ```
+{
+	// All node names must start with "n8n-nodes-"
+	"name": "n8n-nodes-friendgrid",
+	"version": "0.1.0",
+	"description": "n8n node to create contacts in SendGrid",
+	"keywords": [
+		// This keyword is required for community nodes
+		"n8n-community-node-package"
+	],
+	"license": "MIT",
+	"homepage": "https://n8n.io",
+	"author": {
+		"name": "Test",
+		"email": "test@example.com"
+	},
+	"repository": {
+		"type": "git",
+		// Change the git remote to your own repository
+		// Add the new URL here
+		"url": "git+<your-repo-url>"
+	},
+	"main": "index.js",
+	"scripts": {
+		// don't change
+	},
+	"files": [
+		"dist"
+	],
+	// Link the credentials and node
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"credentials": [
+			"dist/credentials/FriendGridApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/FriendGrid/FriendGrid.node.js"
+		]
+	},
+	"devDependencies": {
+		// don't change
+	},
+	"peerDependencies": {
+		// don't change
+	}
+}
+``` |
 
 You need to update the `package.json` to include your own information, such as your name and repository URL. For more information on npm `package.json` files, refer to [npm's package.json documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-json).
 
@@ -212,7 +792,11 @@ You can test your node as you build it by running it in a local n8n instance.
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>``` | ```<br>npm install n8n -g<br>``` |
+| ```
+1
+``` | ```
+npm install n8n -g
+``` |
 
 2. When you are ready to test your node, publish it locally:
 
@@ -220,7 +804,15 @@ You can test your node as you build it by running it in a local n8n instance.
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>``` | ```<br># In your node directory<br>npm run build<br>npm link<br>``` |
+| ```
+1
+2
+3
+``` | ```
+# In your node directory
+npm run build
+npm link
+``` |
 
 3. Install the node into your local n8n instance:
 
@@ -229,7 +821,15 @@ You can test your node as you build it by running it in a local n8n instance.
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>``` | ```<br># In the nodes directory within your n8n installation<br># node-package-name is the name from the package.json<br>npm link <node-package-name><br>``` |
+| ```
+1
+2
+3
+``` | ```
+# In the nodes directory within your n8n installation
+# node-package-name is the name from the package.json
+npm link <node-package-name>
+``` |
 
 
 
@@ -255,7 +855,11 @@ Make sure you run `npm link <node-name>` in the nodes directory within your n8n 
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>``` | ```<br>n8n start<br>``` |
+| ```
+1
+``` | ```
+n8n start
+``` |
 
 5. Open n8n in your browser. You should see your nodes when you search for them in the nodes panel.
 
@@ -276,4 +880,14 @@ You have to create `custom` directory manually and run `npm init`
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>``` | ```<br># In ~/.n8n directory run<br>mkdir custom <br>cd custom <br>npm init<br>``` |
+| ```
+1
+2
+3
+4
+``` | ```
+# In ~/.n8n directory run
+mkdir custom 
+cd custom 
+npm init
+``` |

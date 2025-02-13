@@ -39,7 +39,9 @@ All node's use n8n's [node UI elements](https://docs.n8n.io/integrations/creatin
 
 | Convention | Correct | Incorrect |
 | --- | --- | --- |
-| If a node is a trigger node, <br>the displayed name should have 'Trigger' at the end, <br>with a space before. | Shopify Trigger | ShopifyTrigger, Shopify trigger |
+| If a node is a trigger node, 
+the displayed name should have 'Trigger' at the end, 
+with a space before. | Shopify Trigger | ShopifyTrigger, Shopify trigger |
 | Don't include 'node' in the name. | Asana | Asana Node, Asana node |
 
 ### Showing and hiding fields [\#](https://docs.n8n.io/integrations/creating-nodes/plan/node-ui-design/\#showing-and-hiding-fields "Permanent link")
@@ -125,7 +127,9 @@ When a trigger node has a parameter for specifying which events to trigger on:
 
 Set subtitles based on the values of the main parameters. For example:
 
-```<br>subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',<br>``` |
+```
+subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+``` |
 
 #### IDs [\#](https://docs.n8n.io/integrations/creating-nodes/plan/node-ui-design/\#ids "Permanent link")
 

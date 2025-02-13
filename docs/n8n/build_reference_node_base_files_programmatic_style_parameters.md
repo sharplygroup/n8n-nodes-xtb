@@ -26,7 +26,59 @@ For example, n8n's [Gmail node](https://github.com/n8n-io/n8n/blob/master/packag
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>``` | ```<br>	methods = {<br>		loadOptions: {<br>			// Get all the labels and display them<br>			async getLabels(<br>				this: ILoadOptionsFunctions,<br>			): Promise<INodePropertyOptions[]> {<br>				const returnData: INodePropertyOptions[] = [];<br>				const labels = await googleApiRequestAllItems.call(<br>					this,<br>					'labels',<br>					'GET',<br>					'/gmail/v1/users/me/labels',<br>				);<br>				for (const label of labels) {<br>					const labelName = label.name;<br>					const labelId = label.id;<br>					returnData.push({<br>						name: labelName,<br>						value: labelId,<br>					});<br>				}<br>				return returnData;<br>			},<br>		},<br>	};<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+``` | ```
+	methods = {
+		loadOptions: {
+			// Get all the labels and display them
+			async getLabels(
+				this: ILoadOptionsFunctions,
+			): Promise<INodePropertyOptions[]> {
+				const returnData: INodePropertyOptions[] = [];
+				const labels = await googleApiRequestAllItems.call(
+					this,
+					'labels',
+					'GET',
+					'/gmail/v1/users/me/labels',
+				);
+				for (const label of labels) {
+					const labelName = label.name;
+					const labelId = label.id;
+					returnData.push({
+						name: labelName,
+						value: labelId,
+					});
+				}
+				return returnData;
+			},
+		},
+	};
+``` |
 
 ## `version` [\#](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-base-files/programmatic-style-parameters/\#version "Permanent link")
 

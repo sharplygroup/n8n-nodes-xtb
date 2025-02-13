@@ -12,7 +12,17 @@ A programmatic-style node also has an `execute()` method, which reads incoming d
 
 This code snippet gives an outline of the node structure.
 
-```<br>import { INodeType, INodeTypeDescription } from 'n8n-workflow';<br>export class ExampleNode implements INodeType {<br>	description: INodeTypeDescription = {<br>		// Basic node details here<br>		properties: [<br>			// Resources and operations here<br>		]<br>	};<br>}<br>```
+```
+import { INodeType, INodeTypeDescription } from 'n8n-workflow';
+export class ExampleNode implements INodeType {
+	description: INodeTypeDescription = {
+		// Basic node details here
+		properties: [
+			// Resources and operations here
+		]
+	};
+}
+```
 
 Refer to [Standard parameters](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-base-files/standard-parameters/) for information on parameters available to all node types. Refer to [Declarative-style parameters](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-base-files/declarative-style-parameters/) for the parameters available for declarative-style nodes.
 
@@ -20,6 +30,36 @@ Refer to [Standard parameters](https://docs.n8n.io/integrations/creating-nodes/b
 
 This code snippet gives an outline of the node structure.
 
-```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>``` | ```<br>import { IExecuteFunctions } from 'n8n-core';<br>import { INodeExecutionData, INodeType, INodeTypeDescription } from 'n8n-workflow';<br>export class ExampleNode implements INodeType {<br>	description: INodeTypeDescription = {<br>    // Basic node details here<br>    properties: [<br>      // Resources and operations here<br>    ]<br>  };<br>  async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {<br>    // Process data and return<br>  }<br>};<br>```
+```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+``` | ```
+import { IExecuteFunctions } from 'n8n-core';
+import { INodeExecutionData, INodeType, INodeTypeDescription } from 'n8n-workflow';
+export class ExampleNode implements INodeType {
+	description: INodeTypeDescription = {
+    // Basic node details here
+    properties: [
+      // Resources and operations here
+    ]
+  };
+  async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    // Process data and return
+  }
+};
+```
 
 Refer to [Standard parameters](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-base-files/standard-parameters/) for information on parameters available to all node types. Refer to [Programmatic-style parameters](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-base-files/programmatic-style-parameters/) and [Programmatic-style execute method](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-base-files/programmatic-style-execute-method/) for more information on working with programmatic-style nodes.

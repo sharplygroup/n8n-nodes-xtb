@@ -22,7 +22,49 @@ One node can contain more than one version, allowing small version increments wi
 
 As an example, say you want to add versioning to the NasaPics node from the [Declarative node tutorial](https://docs.n8n.io/integrations/creating-nodes/build/declarative-style-node/), then configure a resource so that n8n only displays it in version 2 of the node. In your base `NasaPics.node.ts` file:
 
-```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>``` | ```<br>{<br>    displayName: 'NASA Pics',<br>    name: 'NasaPics',<br>    icon: 'file:nasapics.svg',<br>    // List the available versions<br>    version: [1,2,3],<br>    // More basic parameters here<br>    properties: [<br>        // Add a resource that's only displayed for version2<br>        {<br>            displayName: 'Resource name',<br>            // More resource parameters<br>            displayOptions: {<br>                show: {<br>                    '@version': 2,<br>                },<br>            },<br>        },<br>    ],<br>}<br>```
+```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+``` | ```
+{
+    displayName: 'NASA Pics',
+    name: 'NasaPics',
+    icon: 'file:nasapics.svg',
+    // List the available versions
+    version: [1,2,3],
+    // More basic parameters here
+    properties: [
+        // Add a resource that's only displayed for version2
+        {
+            displayName: 'Resource name',
+            // More resource parameters
+            displayOptions: {
+                show: {
+                    '@version': 2,
+                },
+            },
+        },
+    ],
+}
+```
 
 ## Full versioning [\#](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-versioning/\#full-versioning "Permanent link")
 

@@ -24,7 +24,97 @@ If your node can perform several operations, call the parameter that sets the op
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>``` | ```<br>export const ExampleNode implements INodeType {<br>    description: {<br>        displayName: 'Example Node',<br>        ...<br>        properties: [<br>            {<br>                displayName: 'Resource',<br>                name: 'resource',<br>                type: 'options',<br>                options: [<br>                    {<br>                        name: 'Resource One',<br>                        value: 'resourceOne'<br>                    },<br>                    {<br>                        name: 'Resource Two',<br>                        value: 'resourceTwo'<br>                    }<br>                ],<br>                default: 'resourceOne'<br>            },<br>            {<br>                displayName: 'Operation',<br>                name: 'operation',<br>                type: 'options',<br>                // Only show these operations for Resource One<br>                displayOptions: {<br>                    show: {<br>                        resource: [<br>                            'resourceOne'<br>                        ]<br>                    }<br>                },<br>                options: [<br>                    {<br>                        name: 'Create',<br>                        value: 'create',<br>                        description: 'Create an instance of Resource One'<br>                    }<br>                ]<br>            }<br>        ]<br>    }<br>}<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+``` | ```
+export const ExampleNode implements INodeType {
+    description: {
+        displayName: 'Example Node',
+        ...
+        properties: [
+            {
+                displayName: 'Resource',
+                name: 'resource',
+                type: 'options',
+                options: [
+                    {
+                        name: 'Resource One',
+                        value: 'resourceOne'
+                    },
+                    {
+                        name: 'Resource Two',
+                        value: 'resourceTwo'
+                    }
+                ],
+                default: 'resourceOne'
+            },
+            {
+                displayName: 'Operation',
+                name: 'operation',
+                type: 'options',
+                // Only show these operations for Resource One
+                displayOptions: {
+                    show: {
+                        resource: [
+                            'resourceOne'
+                        ]
+                    }
+                },
+                options: [
+                    {
+                        name: 'Create',
+                        value: 'create',
+                        description: 'Create an instance of Resource One'
+                    }
+                ]
+            }
+        ]
+    }
+}
+``` |
 
 ### Reuse internal parameter names [\#](https://docs.n8n.io/integrations/creating-nodes/build/reference/code-standards/\#reuse-internal-parameter-names "Permanent link")
 
@@ -50,7 +140,26 @@ Some third-party services have their own libraries on npm, which make it easier 
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>``` | ```<br>// If no auth needed<br>const response = await this.helpers.httpRequest(options);<br>// If auth needed<br>const response = await this.helpers.httpRequestWithAuthentication.call(<br>	this, <br>	'credentialTypeName', // For example: pipedriveApi<br>	options,<br>);<br>``` |
+| ```
+1
+2
+3
+4
+5
+6
+7
+8
+9
+``` | ```
+// If no auth needed
+const response = await this.helpers.httpRequest(options);
+// If auth needed
+const response = await this.helpers.httpRequestWithAuthentication.call(
+	this, 
+	'credentialTypeName', // For example: pipedriveApi
+	options,
+);
+``` |
 
 This uses the npm package [Axios](https://www.npmjs.com/package/axios).
 

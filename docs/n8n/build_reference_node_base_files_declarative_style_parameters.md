@@ -14,7 +14,81 @@ _Object_ \| _Optional_
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>``` | ```<br>methods : {<br>	loadOptions: {<br>		routing: {<br>			request: {<br>				url: '/webhook/example-option-parameters',<br>				method: 'GET',<br>			},<br>			output: {<br>				postReceive: [<br>					{<br>						// When the returned data is nested under another property<br>						// Specify that property key<br>						type: 'rootProperty',<br>						properties: {<br>							property: 'responseData',<br>						},<br>					},<br>					{<br>						type: 'setKeyValue',<br>						properties: {<br>							name: '={{$responseItem.key}} ({{$responseItem.value}})',<br>							value: '={{$responseItem.value}}',<br>						},<br>					},<br>					{<br>						// If incoming data is an array of objects, sort alphabetically by key<br>						type: 'sort',<br>						properties: {<br>							key: 'name',<br>						},<br>					},<br>				],<br>			},<br>		},<br>	}<br>},<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+``` | ```
+methods : {
+	loadOptions: {
+		routing: {
+			request: {
+				url: '/webhook/example-option-parameters',
+				method: 'GET',
+			},
+			output: {
+				postReceive: [
+					{
+						// When the returned data is nested under another property
+						// Specify that property key
+						type: 'rootProperty',
+						properties: {
+							property: 'responseData',
+						},
+					},
+					{
+						type: 'setKeyValue',
+						properties: {
+							name: '={{$responseItem.key}} ({{$responseItem.value}})',
+							value: '={{$responseItem.value}}',
+						},
+					},
+					{
+						// If incoming data is an array of objects, sort alphabetically by key
+						type: 'sort',
+						properties: {
+							key: 'name',
+						},
+					},
+				],
+			},
+		},
+	}
+},
+``` |
 
 ## `routing` [\#](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-base-files/declarative-style-parameters/\#routing "Permanent link")
 
@@ -26,7 +100,71 @@ The code example below comes from the [Declarative-style tutorial](https://docs.
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>``` | ```<br>description: INodeTypeDescription = {<br>  // Other node info here<br>  requestDefaults: {<br>			baseURL: 'https://api.nasa.gov',<br>			url: '',<br>			headers: {<br>				Accept: 'application/json',<br>				'Content-Type': 'application/json',<br>			},<br>		},<br>    properties: [<br>      // Resources here<br>      {<br>        displayName: 'Operation'<br>        // Other operation details<br>        options: [<br>          {<br>            name: 'Get'<br>            value: 'get',<br>            description: '',<br>            routing: {<br>              request: {<br>                method: 'GET',<br>                url: '/planetary/apod'<br>              }<br>            }<br>          }<br>        ]<br>      }<br>    ]<br>}<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+``` | ```
+description: INodeTypeDescription = {
+  // Other node info here
+  requestDefaults: {
+			baseURL: 'https://api.nasa.gov',
+			url: '',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		},
+    properties: [
+      // Resources here
+      {
+        displayName: 'Operation'
+        // Other operation details
+        options: [
+          {
+            name: 'Get'
+            value: 'get',
+            description: '',
+            routing: {
+              request: {
+                method: 'GET',
+                url: '/planetary/apod'
+              }
+            }
+          }
+        ]
+      }
+    ]
+}
+``` |
 
 ## `version` [\#](https://docs.n8n.io/integrations/creating-nodes/build/reference/node-base-files/declarative-style-parameters/\#version "Permanent link")
 

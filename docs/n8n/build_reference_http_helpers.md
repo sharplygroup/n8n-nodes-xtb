@@ -12,13 +12,88 @@ Call the helper inside the `execute` function.
 
 |     |     |
 | --- | --- |
-| ```<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>``` | ```<br>// If no auth needed<br>const response = await this.helpers.httpRequest(options);<br>// If auth needed<br>const response = await this.helpers.httpRequestWithAuthentication.call(<br>	this, <br>	'credentialTypeName', // For example: pipedriveApi<br>	options,<br>);<br>``` |
+| ```
+1
+2
+3
+4
+5
+6
+7
+8
+9
+``` | ```
+// If no auth needed
+const response = await this.helpers.httpRequest(options);
+// If auth needed
+const response = await this.helpers.httpRequestWithAuthentication.call(
+	this, 
+	'credentialTypeName', // For example: pipedriveApi
+	options,
+);
+``` |
 
 `options` is an object:
 
 |     |     |
 | --- | --- |
-| ```<br> 1<br> 2<br> 3<br> 4<br> 5<br> 6<br> 7<br> 8<br> 9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>``` | ```<br>{<br>	url: string;<br>	headers?: object;<br>	method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD';<br>	body?: FormData | Array | string | number | object | Buffer | URLSearchParams;<br>	qs?: object;<br>	arrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma';<br>	auth?: {<br>		username: string,<br>		password: string,<br>	};<br>	disableFollowRedirect?: boolean;<br>	encoding?: 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | 'stream';<br>	skipSslCertificateValidation?: boolean;<br>	returnFullResponse?: boolean;<br>	proxy?: {<br>		host: string;<br>		port: string | number;<br>		auth?: {<br>			username: string;<br>			password: string;<br>		},<br>		protocol?: string;<br>	};<br>	timeout?: number;<br>	json?: boolean;<br>}	<br>``` |
+| ```
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+``` | ```
+{
+	url: string;
+	headers?: object;
+	method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD';
+	body?: FormData | Array | string | number | object | Buffer | URLSearchParams;
+	qs?: object;
+	arrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma';
+	auth?: {
+		username: string,
+		password: string,
+	};
+	disableFollowRedirect?: boolean;
+	encoding?: 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | 'stream';
+	skipSslCertificateValidation?: boolean;
+	returnFullResponse?: boolean;
+	proxy?: {
+		host: string;
+		port: string | number;
+		auth?: {
+			username: string;
+			password: string;
+		},
+		protocol?: string;
+	};
+	timeout?: number;
+	json?: boolean;
+}	
+``` |
 
 `url` is required. The other fields are optional. The default method is `GET`.
 

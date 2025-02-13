@@ -26,8 +26,171 @@ To understand the difference between the declarative and programmatic styles, co
 
 In programmatic style:
 
-```<br>import {<br>	IExecuteFunctions,<br>	INodeExecutionData,<br>	INodeType,<br>	INodeTypeDescription,<br>	IRequestOptions,<br>} from 'n8n-workflow';<br>// Create the FriendGrid class<br>export class FriendGrid implements INodeType {<br>  description: INodeTypeDescription = {<br>    displayName: 'FriendGrid',<br>    name: 'friendGrid',<br>    . . .<br>    properties: [<br>      {<br>        displayName: 'Resource',<br>        . . .<br>      },<br>      {<br>      displayName: 'Operation',<br>      name: 'operation',<br>      type: 'options',<br>      displayOptions: {<br>        show: {<br>            resource: [<br>            'contact',<br>            ],<br>        },<br>      },<br>      options: [<br>        {<br>          name: 'Create',<br>          value: 'create',<br>          description: 'Create a contact',<br>        },<br>      ],<br>      default: 'create',<br>      description: 'The operation to perform.',<br>    },<br>    {<br>      displayName: 'Email',<br>      name: 'email',<br>      . . .<br>    },<br>    {<br>      displayName: 'Additional Fields',<br>      // Sets up optional fields<br>    },<br>  ],<br>};<br>  async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {<br>    let responseData;<br>    const resource = this.getNodeParameter('resource', 0) as string;<br>    const operation = this.getNodeParameter('operation', 0) as string;<br>    //Get credentials the user provided for this node<br>    const credentials = await this.getCredentials('friendGridApi') as IDataObject;<br>    if (resource === 'contact') {<br>      if (operation === 'create') {<br>      // Get email input<br>      const email = this.getNodeParameter('email', 0) as string;<br>      // Get additional fields input<br>      const additionalFields = this.getNodeParameter('additionalFields', 0) as IDataObject;<br>      const data: IDataObject = {<br>          email,<br>      };<br>      Object.assign(data, additionalFields);<br>      // Make HTTP request as defined in https://sendgrid.com/docs/api-reference/<br>      const options: IRequestOptions = {<br>        headers: {<br>            'Accept': 'application/json',<br>            'Authorization': `Bearer ${credentials.apiKey}`,<br>        },<br>        method: 'PUT',<br>        body: {<br>            contacts: [<br>            data,<br>            ],<br>        },<br>        url: `https://api.sendgrid.com/v3/marketing/contacts`,<br>        json: true,<br>      };<br>      responseData = await this.helpers.httpRequest(options);<br>      }<br>    }<br>    // Map data to n8n data<br>    return [this.helpers.returnJsonArray(responseData)];<br>  }<br>}<br>```
+```
+import {
+	IExecuteFunctions,
+	INodeExecutionData,
+	INodeType,
+	INodeTypeDescription,
+	IRequestOptions,
+} from 'n8n-workflow';
+// Create the FriendGrid class
+export class FriendGrid implements INodeType {
+  description: INodeTypeDescription = {
+    displayName: 'FriendGrid',
+    name: 'friendGrid',
+    . . .
+    properties: [
+      {
+        displayName: 'Resource',
+        . . .
+      },
+      {
+      displayName: 'Operation',
+      name: 'operation',
+      type: 'options',
+      displayOptions: {
+        show: {
+            resource: [
+            'contact',
+            ],
+        },
+      },
+      options: [
+        {
+          name: 'Create',
+          value: 'create',
+          description: 'Create a contact',
+        },
+      ],
+      default: 'create',
+      description: 'The operation to perform.',
+    },
+    {
+      displayName: 'Email',
+      name: 'email',
+      . . .
+    },
+    {
+      displayName: 'Additional Fields',
+      // Sets up optional fields
+    },
+  ],
+};
+  async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    let responseData;
+    const resource = this.getNodeParameter('resource', 0) as string;
+    const operation = this.getNodeParameter('operation', 0) as string;
+    //Get credentials the user provided for this node
+    const credentials = await this.getCredentials('friendGridApi') as IDataObject;
+    if (resource === 'contact') {
+      if (operation === 'create') {
+      // Get email input
+      const email = this.getNodeParameter('email', 0) as string;
+      // Get additional fields input
+      const additionalFields = this.getNodeParameter('additionalFields', 0) as IDataObject;
+      const data: IDataObject = {
+          email,
+      };
+      Object.assign(data, additionalFields);
+      // Make HTTP request as defined in https://sendgrid.com/docs/api-reference/
+      const options: IRequestOptions = {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${credentials.apiKey}`,
+        },
+        method: 'PUT',
+        body: {
+            contacts: [
+            data,
+            ],
+        },
+        url: `https://api.sendgrid.com/v3/marketing/contacts`,
+        json: true,
+      };
+      responseData = await this.helpers.httpRequest(options);
+      }
+    }
+    // Map data to n8n data
+    return [this.helpers.returnJsonArray(responseData)];
+  }
+}
+```
 
 In declarative style:
 
-```<br>import { INodeType, INodeTypeDescription } from 'n8n-workflow';<br>// Create the FriendGrid class<br>export class FriendGrid implements INodeType {<br>  description: INodeTypeDescription = {<br>    displayName: 'FriendGrid',<br>    name: 'friendGrid',<br>    . . .<br>    // Set up the basic request configuration<br>    requestDefaults: {<br>        baseURL: 'https://api.sendgrid.com/v3/marketing'<br>    },<br>    properties: [<br>        {<br>        displayName: 'Resource',<br>        . . .<br>        },<br>        {<br>        displayName: 'Operation',<br>        name: 'operation',<br>        type: 'options',<br>        displayOptions: {<br>          show: {<br>            resource: [<br>                'contact',<br>            ],<br>          },<br>        },<br>        options: [<br>          {<br>            name: 'Create',<br>            value: 'create',<br>            description: 'Create a contact',<br>            // Add the routing object<br>            routing: {<br>                request: {<br>                method: 'POST',<br>                url: '=/contacts',<br>                send: {<br>                    type: 'body',<br>                    properties: {<br>                    email: {{$parameter["email"]}}<br>                    }<br>                }<br>                }<br>            },<br>            // Handle the response to contact creation<br>            output: {<br>                postReceive: [<br>                {<br>                    type: 'set',<br>                    properties: {<br>                    value: '={{ { "success": $response } }}'<br>                    }<br>                }<br>                ]<br>            }<br>            },<br>        ],<br>        default: 'create',<br>        description: 'The operation to perform.',<br>        },<br>        {<br>        displayName: 'Email',<br>        . . .<br>        },<br>        {<br>        displayName: 'Additional Fields',<br>        // Sets up optional fields<br>        },<br>    ],<br>  }<br>  // No execute method needed<br>}<br>```
+```
+import { INodeType, INodeTypeDescription } from 'n8n-workflow';
+// Create the FriendGrid class
+export class FriendGrid implements INodeType {
+  description: INodeTypeDescription = {
+    displayName: 'FriendGrid',
+    name: 'friendGrid',
+    . . .
+    // Set up the basic request configuration
+    requestDefaults: {
+        baseURL: 'https://api.sendgrid.com/v3/marketing'
+    },
+    properties: [
+        {
+        displayName: 'Resource',
+        . . .
+        },
+        {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        displayOptions: {
+          show: {
+            resource: [
+                'contact',
+            ],
+          },
+        },
+        options: [
+          {
+            name: 'Create',
+            value: 'create',
+            description: 'Create a contact',
+            // Add the routing object
+            routing: {
+                request: {
+                method: 'POST',
+                url: '=/contacts',
+                send: {
+                    type: 'body',
+                    properties: {
+                    email: {{$parameter["email"]}}
+                    }
+                }
+                }
+            },
+            // Handle the response to contact creation
+            output: {
+                postReceive: [
+                {
+                    type: 'set',
+                    properties: {
+                    value: '={{ { "success": $response } }}'
+                    }
+                }
+                ]
+            }
+            },
+        ],
+        default: 'create',
+        description: 'The operation to perform.',
+        },
+        {
+        displayName: 'Email',
+        . . .
+        },
+        {
+        displayName: 'Additional Fields',
+        // Sets up optional fields
+        },
+    ],
+  }
+  // No execute method needed
+}
+```
