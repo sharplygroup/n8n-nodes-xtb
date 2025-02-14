@@ -252,6 +252,89 @@ export class Xtb implements INodeType {
 		// Initialize WebSocket manager
 		const wsManager = new WebSocketManager(credentials);
 
+		// Define local functions for trading operations
+		const handleTradeTransaction = async (tradeInfo: IDataObject): Promise<IDataObject> => {
+			const tradeResponse = (await wsManager.sendCommand({
+				command: 'tradeTransaction',
+				arguments: {
+					tradeTransInfo: tradeInfo,
+				},
+			})) as ITradeTransactionResponse;
+
+			if (!tradeResponse.status || !tradeResponse.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					tradeResponse.errorDescr || 'Failed to process trade transaction',
+				);
+			}
+
+			// Get trade status
+			const statusResponse = (await wsManager.sendCommand({
+				command: 'tradeTransactionStatus',
+				arguments: {
+					order: tradeResponse.returnData.order,
+				},
+			})) as ITradeStatusResponse;
+
+			if (!statusResponse.status || !statusResponse.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					statusResponse.errorDescr || 'Failed to get trade status',
+				);
+			}
+
+			return statusResponse.returnData;
+		};
+
+		const openTrade = async (i: number): Promise<IDataObject> => {
+			const symbol = this.getNodeParameter('symbol', i) as string;
+			const cmd = this.getNodeParameter('cmd', i) as number;
+			const volume = this.getNodeParameter('volume', i) as number;
+			const price = this.getNodeParameter('price', i) as number;
+			const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
+
+			const tradeInfo = {
+				cmd,
+				symbol,
+				volume,
+				price,
+				type: 0, // Open
+				...additionalFields,
+			};
+
+			return handleTradeTransaction(tradeInfo);
+		};
+
+		const closeTrade = async (i: number): Promise<IDataObject> => {
+			const order = this.getNodeParameter('order', i) as number;
+
+			const tradeInfo = {
+				cmd: 0, // The original command will be determined by the server
+				order,
+				type: 2, // Close
+			};
+
+			return handleTradeTransaction(tradeInfo);
+		};
+
+		const getTrades = async (): Promise<IDataObject> => {
+			const tradesResponse = (await wsManager.sendCommand({
+				command: 'getTrades',
+				arguments: {
+					openedOnly: true,
+				},
+			})) as ITradesResponse;
+
+			if (!tradesResponse.status || !tradesResponse.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					tradesResponse.errorDescr || 'Failed to get trades',
+				);
+			}
+
+			return { trades: tradesResponse.returnData };
+		};
+
 		try {
 			// Connect to XTB API
 			await wsManager.connect();
@@ -264,118 +347,17 @@ export class Xtb implements INodeType {
 					switch (resource) {
 						case 'trading': {
 							switch (operation) {
-								case 'openTrade': {
-									const symbol = this.getNodeParameter('symbol', i) as string;
-									const cmd = this.getNodeParameter('cmd', i) as number;
-									const volume = this.getNodeParameter('volume', i) as number;
-									const price = this.getNodeParameter('price', i) as number;
-									const additionalFields = this.getNodeParameter(
-										'additionalFields',
-										i,
-									) as IDataObject;
-
-									const tradeInfo = {
-										cmd,
-										symbol,
-										volume,
-										price,
-										type: 0, // Open
-										...additionalFields,
-									};
-
-									const tradeResponse = (await wsManager.sendCommand({
-										command: 'tradeTransaction',
-										arguments: {
-											tradeTransInfo: tradeInfo,
-										},
-									})) as ITradeTransactionResponse;
-
-									if (!tradeResponse.status || !tradeResponse.returnData) {
-										throw new NodeOperationError(
-											this.getNode(),
-											tradeResponse.errorDescr || 'Failed to open trade',
-										);
-									}
-
-									// Get trade status
-									const statusResponse = (await wsManager.sendCommand({
-										command: 'tradeTransactionStatus',
-										arguments: {
-											order: tradeResponse.returnData.order,
-										},
-									})) as ITradeStatusResponse;
-
-									if (!statusResponse.status || !statusResponse.returnData) {
-										throw new NodeOperationError(
-											this.getNode(),
-											statusResponse.errorDescr || 'Failed to get trade status',
-										);
-									}
-
-									response = statusResponse.returnData;
+								case 'openTrade':
+									response = await openTrade(i);
 									break;
-								}
 
-								case 'closeTrade': {
-									const order = this.getNodeParameter('order', i) as number;
-
-									const tradeInfo = {
-										cmd: 0, // The original command will be determined by the server
-										order,
-										type: 2, // Close
-									};
-
-									const tradeResponse = (await wsManager.sendCommand({
-										command: 'tradeTransaction',
-										arguments: {
-											tradeTransInfo: tradeInfo,
-										},
-									})) as ITradeTransactionResponse;
-
-									if (!tradeResponse.status || !tradeResponse.returnData) {
-										throw new NodeOperationError(
-											this.getNode(),
-											tradeResponse.errorDescr || 'Failed to close trade',
-										);
-									}
-
-									// Get trade status
-									const statusResponse = (await wsManager.sendCommand({
-										command: 'tradeTransactionStatus',
-										arguments: {
-											order: tradeResponse.returnData.order,
-										},
-									})) as ITradeStatusResponse;
-
-									if (!statusResponse.status || !statusResponse.returnData) {
-										throw new NodeOperationError(
-											this.getNode(),
-											statusResponse.errorDescr || 'Failed to get trade status',
-										);
-									}
-
-									response = statusResponse.returnData;
+								case 'closeTrade':
+									response = await closeTrade(i);
 									break;
-								}
 
-								case 'getTrades': {
-									const tradesResponse = (await wsManager.sendCommand({
-										command: 'getTrades',
-										arguments: {
-											openedOnly: true,
-										},
-									})) as ITradesResponse;
-
-									if (!tradesResponse.status || !tradesResponse.returnData) {
-										throw new NodeOperationError(
-											this.getNode(),
-											tradesResponse.errorDescr || 'Failed to get trades',
-										);
-									}
-
-									response = { trades: tradesResponse.returnData };
+								case 'getTrades':
+									response = await getTrades();
 									break;
-								}
 
 								default:
 									throw new NodeOperationError(
