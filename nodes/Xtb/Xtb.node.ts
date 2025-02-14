@@ -71,9 +71,7 @@ export class Xtb implements INodeType {
 				noDataExpression: true,
 				displayOptions: {
 					show: {
-						resource: [
-							'trading',
-						],
+						resource: ['trading'],
 					},
 				},
 				options: [
@@ -247,13 +245,13 @@ export class Xtb implements INodeType {
 		const returnData: IDataObject[] = [];
 		const resource = this.getNodeParameter('resource', 0) as string;
 		const operation = this.getNodeParameter('operation', 0) as string;
-		
+
 		// Get credentials
-		const credentials = await this.getCredentials('xtbApi') as unknown as IXtbCredentials;
-		
+		const credentials = (await this.getCredentials('xtbApi')) as unknown as IXtbCredentials;
+
 		// Initialize WebSocket manager
 		const wsManager = new WebSocketManager(credentials);
-		
+
 		try {
 			// Connect to XTB API
 			await wsManager.connect();
@@ -271,7 +269,10 @@ export class Xtb implements INodeType {
 									const cmd = this.getNodeParameter('cmd', i) as number;
 									const volume = this.getNodeParameter('volume', i) as number;
 									const price = this.getNodeParameter('price', i) as number;
-									const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
+									const additionalFields = this.getNodeParameter(
+										'additionalFields',
+										i,
+									) as IDataObject;
 
 									const tradeInfo = {
 										cmd,
@@ -282,27 +283,33 @@ export class Xtb implements INodeType {
 										...additionalFields,
 									};
 
-									const tradeResponse = await wsManager.sendCommand({
+									const tradeResponse = (await wsManager.sendCommand({
 										command: 'tradeTransaction',
 										arguments: {
 											tradeTransInfo: tradeInfo,
 										},
-									}) as ITradeTransactionResponse;
+									})) as ITradeTransactionResponse;
 
 									if (!tradeResponse.status || !tradeResponse.returnData) {
-										throw new NodeOperationError(this.getNode(), tradeResponse.errorDescr || 'Failed to open trade');
+										throw new NodeOperationError(
+											this.getNode(),
+											tradeResponse.errorDescr || 'Failed to open trade',
+										);
 									}
 
 									// Get trade status
-									const statusResponse = await wsManager.sendCommand({
+									const statusResponse = (await wsManager.sendCommand({
 										command: 'tradeTransactionStatus',
 										arguments: {
 											order: tradeResponse.returnData.order,
 										},
-									}) as ITradeStatusResponse;
+									})) as ITradeStatusResponse;
 
 									if (!statusResponse.status || !statusResponse.returnData) {
-										throw new NodeOperationError(this.getNode(), statusResponse.errorDescr || 'Failed to get trade status');
+										throw new NodeOperationError(
+											this.getNode(),
+											statusResponse.errorDescr || 'Failed to get trade status',
+										);
 									}
 
 									response = statusResponse.returnData;
@@ -318,27 +325,33 @@ export class Xtb implements INodeType {
 										type: 2, // Close
 									};
 
-									const tradeResponse = await wsManager.sendCommand({
+									const tradeResponse = (await wsManager.sendCommand({
 										command: 'tradeTransaction',
 										arguments: {
 											tradeTransInfo: tradeInfo,
 										},
-									}) as ITradeTransactionResponse;
+									})) as ITradeTransactionResponse;
 
 									if (!tradeResponse.status || !tradeResponse.returnData) {
-										throw new NodeOperationError(this.getNode(), tradeResponse.errorDescr || 'Failed to close trade');
+										throw new NodeOperationError(
+											this.getNode(),
+											tradeResponse.errorDescr || 'Failed to close trade',
+										);
 									}
 
 									// Get trade status
-									const statusResponse = await wsManager.sendCommand({
+									const statusResponse = (await wsManager.sendCommand({
 										command: 'tradeTransactionStatus',
 										arguments: {
 											order: tradeResponse.returnData.order,
 										},
-									}) as ITradeStatusResponse;
+									})) as ITradeStatusResponse;
 
 									if (!statusResponse.status || !statusResponse.returnData) {
-										throw new NodeOperationError(this.getNode(), statusResponse.errorDescr || 'Failed to get trade status');
+										throw new NodeOperationError(
+											this.getNode(),
+											statusResponse.errorDescr || 'Failed to get trade status',
+										);
 									}
 
 									response = statusResponse.returnData;
@@ -346,15 +359,18 @@ export class Xtb implements INodeType {
 								}
 
 								case 'getTrades': {
-									const tradesResponse = await wsManager.sendCommand({
+									const tradesResponse = (await wsManager.sendCommand({
 										command: 'getTrades',
 										arguments: {
 											openedOnly: true,
 										},
-									}) as ITradesResponse;
+									})) as ITradesResponse;
 
 									if (!tradesResponse.status || !tradesResponse.returnData) {
-										throw new NodeOperationError(this.getNode(), tradesResponse.errorDescr || 'Failed to get trades');
+										throw new NodeOperationError(
+											this.getNode(),
+											tradesResponse.errorDescr || 'Failed to get trades',
+										);
 									}
 
 									response = { trades: tradesResponse.returnData };
@@ -362,16 +378,25 @@ export class Xtb implements INodeType {
 								}
 
 								default:
-									throw new NodeOperationError(this.getNode(), `Unknown trading operation: ${operation}`);
+									throw new NodeOperationError(
+										this.getNode(),
+										`Unknown trading operation: ${operation}`,
+									);
 							}
 							break;
 						}
 
 						case 'marketData':
-							throw new NodeOperationError(this.getNode(), 'Market data operations not implemented yet');
+							throw new NodeOperationError(
+								this.getNode(),
+								'Market data operations not implemented yet',
+							);
 
 						case 'account':
-							throw new NodeOperationError(this.getNode(), 'Account operations not implemented yet');
+							throw new NodeOperationError(
+								this.getNode(),
+								'Account operations not implemented yet',
+							);
 
 						default:
 							throw new NodeOperationError(this.getNode(), `Unknown resource: ${resource}`);

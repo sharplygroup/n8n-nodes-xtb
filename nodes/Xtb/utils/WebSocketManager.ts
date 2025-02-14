@@ -15,7 +15,6 @@ export interface IWebSocketResponse {
 	streamSessionId?: string;
 }
 
-
 export class WebSocketManager {
 	private mainSocket: WebSocket | null = null;
 	private streamSocket: WebSocket | null = null;
@@ -101,18 +100,22 @@ export class WebSocketManager {
 
 	private startPingInterval(): void {
 		// Send ping every 10 minutes to keep connection alive
-		this.pingInterval = setInterval(async () => {
-			try {
-				await this.sendCommand({ command: 'ping' });
-			} catch (error) {
-				// Handle ping error - maybe reconnect
-				console.error('Ping failed:', error);
-			}
-		}, 10 * 60 * 1000); // 10 minutes
+		this.pingInterval = setInterval(
+			async () => {
+				try {
+					await this.sendCommand({ command: 'ping' });
+				} catch (error) {
+					// Handle ping error - maybe reconnect
+					console.error('Ping failed:', error);
+				}
+			},
+			10 * 60 * 1000,
+		); // 10 minutes
 	}
 
 	public async sendCommand(command: IDataObject): Promise<IWebSocketResponse> {
-		if (!this.mainSocket || this.mainSocket.readyState !== 1) { // 1 = OPEN
+		if (!this.mainSocket || this.mainSocket.readyState !== 1) {
+			// 1 = OPEN
 			throw new Error('Main socket not connected');
 		}
 
@@ -144,7 +147,8 @@ export class WebSocketManager {
 	}
 
 	public async sendStreamCommand(command: IDataObject): Promise<void> {
-		if (!this.streamSocket || this.streamSocket.readyState !== 1) { // 1 = OPEN
+		if (!this.streamSocket || this.streamSocket.readyState !== 1) {
+			// 1 = OPEN
 			throw new Error('Stream socket not connected');
 		}
 
