@@ -8,7 +8,12 @@ import {
 export class XtbApi implements ICredentialType {
 	name = 'xtbApi';
 	displayName = 'XTB API';
+	// FIXME!!
+	// There is an issue with the certificate of the XTB API, so we need to disable the certificate check by using http instead of https
 	documentationUrl = 'https://developers.xstore.pro/documentation/';
+
+	// FIXME!!
+	// I think the credentials are not login and password but rather login and API Key
 	properties: INodeProperties[] = [
 		{
 			displayName: 'User ID',
