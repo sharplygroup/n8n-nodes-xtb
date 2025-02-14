@@ -1,19 +1,19 @@
 {
   "name": "n8n-nodes-xtb",
   "version": "0.1.0",
-  "description": "",
+  "description": "n8n community node for XTB (X-Trade Brokers) trading platform integration using WebSocket API",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Adrian Budzyński",
+    "email": "budzynskiadrian@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/TBD/n8n-nodes-TBD.git"
   },
   "engines": {
     "node": ">=18.10",
