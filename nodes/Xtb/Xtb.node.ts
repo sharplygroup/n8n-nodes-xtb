@@ -5,7 +5,6 @@ import {
 	INodeType,
 	INodeTypeDescription,
 	NodeOperationError,
-	NodeConnectionType,
 } from 'n8n-workflow';
 import { WebSocketManager, IXtbCredentials, IWebSocketResponse } from './utils/WebSocketManager';
 
@@ -35,12 +34,8 @@ export class Xtb implements INodeType {
 		defaults: {
 			name: 'XTB',
 		},
-		inputs: [{
-			type: NodeConnectionType.Main,
-		}],
-		outputs: [{
-			type: NodeConnectionType.Main,
-		}],
+		inputs: ['main'],
+		outputs: ['main'],
 		credentials: [
 			{
 				name: 'xtbApi',
@@ -254,7 +249,7 @@ export class Xtb implements INodeType {
 		const operation = this.getNodeParameter('operation', 0) as string;
 		
 		// Get credentials
-		const credentials = await this.getCredentials('xtbApi') as IXtbCredentials;
+		const credentials = await this.getCredentials('xtbApi') as unknown as IXtbCredentials;
 		
 		// Initialize WebSocket manager
 		const wsManager = new WebSocketManager(credentials);
@@ -295,7 +290,7 @@ export class Xtb implements INodeType {
 									}) as ITradeTransactionResponse;
 
 									if (!tradeResponse.status || !tradeResponse.returnData) {
-										throw new Error(tradeResponse.errorDescr || 'Failed to open trade');
+										throw new NodeOperationError(this.getNode(), tradeResponse.errorDescr || 'Failed to open trade');
 									}
 
 									// Get trade status
@@ -307,7 +302,7 @@ export class Xtb implements INodeType {
 									}) as ITradeStatusResponse;
 
 									if (!statusResponse.status || !statusResponse.returnData) {
-										throw new Error(statusResponse.errorDescr || 'Failed to get trade status');
+										throw new NodeOperationError(this.getNode(), statusResponse.errorDescr || 'Failed to get trade status');
 									}
 
 									response = statusResponse.returnData;
@@ -331,7 +326,7 @@ export class Xtb implements INodeType {
 									}) as ITradeTransactionResponse;
 
 									if (!tradeResponse.status || !tradeResponse.returnData) {
-										throw new Error(tradeResponse.errorDescr || 'Failed to close trade');
+										throw new NodeOperationError(this.getNode(), tradeResponse.errorDescr || 'Failed to close trade');
 									}
 
 									// Get trade status
@@ -343,7 +338,7 @@ export class Xtb implements INodeType {
 									}) as ITradeStatusResponse;
 
 									if (!statusResponse.status || !statusResponse.returnData) {
-										throw new Error(statusResponse.errorDescr || 'Failed to get trade status');
+										throw new NodeOperationError(this.getNode(), statusResponse.errorDescr || 'Failed to get trade status');
 									}
 
 									response = statusResponse.returnData;
@@ -359,7 +354,7 @@ export class Xtb implements INodeType {
 									}) as ITradesResponse;
 
 									if (!tradesResponse.status || !tradesResponse.returnData) {
-										throw new Error(tradesResponse.errorDescr || 'Failed to get trades');
+										throw new NodeOperationError(this.getNode(), tradesResponse.errorDescr || 'Failed to get trades');
 									}
 
 									response = { trades: tradesResponse.returnData };
@@ -367,19 +362,19 @@ export class Xtb implements INodeType {
 								}
 
 								default:
-									throw new Error(`Unknown trading operation: ${operation}`);
+									throw new NodeOperationError(this.getNode(), `Unknown trading operation: ${operation}`);
 							}
 							break;
 						}
 
 						case 'marketData':
-							throw new Error('Market data operations not implemented yet');
+							throw new NodeOperationError(this.getNode(), 'Market data operations not implemented yet');
 
 						case 'account':
-							throw new Error('Account operations not implemented yet');
+							throw new NodeOperationError(this.getNode(), 'Account operations not implemented yet');
 
 						default:
-							throw new Error(`Unknown resource: ${resource}`);
+							throw new NodeOperationError(this.getNode(), `Unknown resource: ${resource}`);
 					}
 
 					returnData.push(response);
