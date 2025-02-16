@@ -7,90 +7,21 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 import { WebSocketManager, IXtbCredentials, IWebSocketResponse } from './utils/WebSocketManager';
+import { ITradeTransactionResponse } from './interfaces/ITradeTransactionResponse';
+import { ITradeStatusResponse } from './interfaces/ITradeStatusResponse';
+import { ITradesResponse } from './interfaces/ITradesResponse';
+import { ISymbolResponse } from './interfaces/ISymbolResponse';
+import { ISymbolsResponse } from './interfaces/ISymbolsResponse';
+import { IChartResponse } from './interfaces/IChartResponse';
+import { ITickPricesResponse } from './interfaces/ITickPricesResponse';
+import { ITradingHoursResponse } from './interfaces/ITradingHoursResponse';
+import { IMarginTradeResponse } from './interfaces/IMarginTradeResponse';
+import { ICommissionResponse } from './interfaces/ICommissionResponse';
+import { IProfitCalculationResponse } from './interfaces/IProfitCalculationResponse';
+import { IAccountDataResponse } from './interfaces/IAccountDataResponse';
+import { IMarginLevelResponse } from './interfaces/IMarginLevelResponse';
 
 // Response interfaces
-interface ITradeTransactionResponse extends IWebSocketResponse {
-	returnData?: IDataObject & {
-		order: number;
-	};
-}
-
-interface ITradeStatusResponse extends IWebSocketResponse {
-	returnData?: IDataObject;
-}
-
-interface ITradesResponse extends IWebSocketResponse {
-	returnData?: IDataObject[];
-}
-
-interface ISymbolResponse extends IWebSocketResponse {
-	returnData?: IDataObject;
-}
-
-interface ISymbolsResponse extends IWebSocketResponse {
-	returnData?: IDataObject[];
-}
-
-interface IChartResponse extends IWebSocketResponse {
-	returnData?: {
-		digits: number;
-		rateInfos: IDataObject[];
-	};
-}
-
-interface ITickPricesResponse extends IWebSocketResponse {
-	returnData?: {
-		quotations: IDataObject[];
-	};
-}
-
-interface ITradingHoursResponse extends IWebSocketResponse {
-	returnData?: IDataObject[];
-}
-
-interface IMarginTradeResponse extends IWebSocketResponse {
-	returnData?: {
-		margin: number;
-	};
-}
-
-interface ICommissionResponse extends IWebSocketResponse {
-	returnData?: {
-		commission: number;
-		rateOfExchange: number;
-	};
-}
-
-interface IProfitCalculationResponse extends IWebSocketResponse {
-	returnData?: {
-		profit: number;
-	};
-}
-
-interface IAccountDataResponse extends IWebSocketResponse {
-	returnData?: {
-		currency: string;
-		leverage: number;
-		leverageMultiplier: number;
-		group: string;
-		companyUnit: number;
-		spreadType: string;
-		ibAccount: boolean;
-		trailingStop: boolean;
-	};
-}
-
-interface IMarginLevelResponse extends IWebSocketResponse {
-	returnData?: {
-		balance: number;
-		equity: number;
-		margin: number;
-		margin_free: number;
-		margin_level: number;
-		credit: number;
-		currency: string;
-	};
-}
 
 export class Xtb implements INodeType {
 	description: INodeTypeDescription = {
