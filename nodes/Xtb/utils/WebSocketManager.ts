@@ -29,12 +29,12 @@ export class WebSocketManager {
 	}
 
 	private getMainSocketUrl(): string {
-		const host = 'wss://ws.xtb.com';
+		const host = 'wss://ws.xapi.pro';
 		return this.isDemo ? `${host}/demo` : `${host}/real`;
 	}
 
 	private getStreamSocketUrl(): string {
-		const host = 'wss://ws.xtb.com';
+		const host = 'wss://ws.xapi.pro';
 		return this.isDemo ? `${host}/demoStream` : `${host}/realStream`;
 	}
 

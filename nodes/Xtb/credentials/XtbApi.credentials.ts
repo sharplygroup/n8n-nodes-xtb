@@ -5,6 +5,29 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
+/**
+ * XTB API provides multiple endpoints for both WebSocket and REST API connections:
+ *
+ * WebSocket Endpoints:
+ * - wss://ws.xapi.pro/demo
+ * - wss://ws.xapi.pro/demoStream
+ * - wss://ws.xapi.pro/real
+ * - wss://ws.xapi.pro/realStream
+ *
+ * REST API Hosts (interchangeable):
+ * 1. xapia.x-station.eu
+ * 2. xapib.x-station.eu
+ *
+ * Port Configuration:
+ * - DEMO:
+ *   - Main port: 5124
+ *   - Streaming port: 5125
+ * - REAL:
+ *   - Main port: 5112
+ *   - Streaming port: 5113
+ *
+ * Note: All servers use SSL connection.
+ */
 export class XtbApi implements ICredentialType {
 	name = 'xtbApi';
 	displayName = 'XTB API';
@@ -47,7 +70,7 @@ export class XtbApi implements ICredentialType {
 	// Instead, we'll return true and let the WebSocket connection test handle authentication
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: 'https://ws.xtb.com',
+			baseURL: 'https://ws.xapi.pro',
 			url: '/demo',
 			method: 'GET',
 		},
