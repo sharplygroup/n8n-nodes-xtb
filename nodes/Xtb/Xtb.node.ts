@@ -6,7 +6,7 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { WebSocketManager, IXtbCredentials, IWebSocketResponse } from './utils/WebSocketManager';
+import { WebSocketManager, IXtbCredentials } from './utils/WebSocketManager';
 import { ITradeTransactionResponse } from './interfaces/ITradeTransactionResponse';
 import { ITradeStatusResponse } from './interfaces/ITradeStatusResponse';
 import { ITradesResponse } from './interfaces/ITradesResponse';
