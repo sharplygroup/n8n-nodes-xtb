@@ -8,6 +8,7 @@ import {
 } from 'n8n-workflow';
 import { WebSocketManager, IXtbCredentials, IWebSocketResponse } from './utils/WebSocketManager';
 
+// Response interfaces
 interface ITradeTransactionResponse extends IWebSocketResponse {
 	returnData?: IDataObject & {
 		order: number;
@@ -20,6 +21,75 @@ interface ITradeStatusResponse extends IWebSocketResponse {
 
 interface ITradesResponse extends IWebSocketResponse {
 	returnData?: IDataObject[];
+}
+
+interface ISymbolResponse extends IWebSocketResponse {
+	returnData?: IDataObject;
+}
+
+interface ISymbolsResponse extends IWebSocketResponse {
+	returnData?: IDataObject[];
+}
+
+interface IChartResponse extends IWebSocketResponse {
+	returnData?: {
+		digits: number;
+		rateInfos: IDataObject[];
+	};
+}
+
+interface ITickPricesResponse extends IWebSocketResponse {
+	returnData?: {
+		quotations: IDataObject[];
+	};
+}
+
+interface ITradingHoursResponse extends IWebSocketResponse {
+	returnData?: IDataObject[];
+}
+
+interface IMarginTradeResponse extends IWebSocketResponse {
+	returnData?: {
+		margin: number;
+	};
+}
+
+interface ICommissionResponse extends IWebSocketResponse {
+	returnData?: {
+		commission: number;
+		rateOfExchange: number;
+	};
+}
+
+interface IProfitCalculationResponse extends IWebSocketResponse {
+	returnData?: {
+		profit: number;
+	};
+}
+
+interface IAccountDataResponse extends IWebSocketResponse {
+	returnData?: {
+		currency: string;
+		leverage: number;
+		leverageMultiplier: number;
+		group: string;
+		companyUnit: number;
+		spreadType: string;
+		ibAccount: boolean;
+		trailingStop: boolean;
+	};
+}
+
+interface IMarginLevelResponse extends IWebSocketResponse {
+	returnData?: {
+		balance: number;
+		equity: number;
+		margin: number;
+		margin_free: number;
+		margin_level: number;
+		credit: number;
+		currency: string;
+	};
 }
 
 export class Xtb implements INodeType {
@@ -64,6 +134,7 @@ export class Xtb implements INodeType {
 				],
 				default: 'trading',
 			},
+			// Trading Operations
 			{
 				displayName: 'Operation',
 				name: 'operation',
@@ -95,6 +166,96 @@ export class Xtb implements INodeType {
 					},
 				],
 				default: 'getTrades',
+			},
+			// Market Data Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['marketData'],
+					},
+				},
+				options: [
+					{
+						name: 'Get All Symbols',
+						value: 'getAllSymbols',
+						description: 'Get all available symbols',
+						action: 'Get all available symbols',
+					},
+					{
+						name: 'Get Symbol',
+						value: 'getSymbol',
+						description: 'Get single symbol details',
+						action: 'Get single symbol details',
+					},
+					{
+						name: 'Get Chart Data',
+						value: 'getChartData',
+						description: 'Get chart data for a symbol',
+						action: 'Get chart data for a symbol',
+					},
+					{
+						name: 'Get Tick Prices',
+						value: 'getTickPrices',
+						description: 'Get current prices for symbols',
+						action: 'Get current prices for symbols',
+					},
+					{
+						name: 'Get Trading Hours',
+						value: 'getTradingHours',
+						description: 'Get trading hours for symbols',
+						action: 'Get trading hours for symbols',
+					},
+				],
+				default: 'getAllSymbols',
+			},
+			// Account Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['account'],
+					},
+				},
+				options: [
+					{
+						name: 'Get Account Data',
+						value: 'getAccountData',
+						description: 'Get account information',
+						action: 'Get account information',
+					},
+					{
+						name: 'Get Margin Level',
+						value: 'getMarginLevel',
+						description: 'Get account indicators',
+						action: 'Get account indicators',
+					},
+					{
+						name: 'Get Margin Trade',
+						value: 'getMarginTrade',
+						description: 'Get margin requirements',
+						action: 'Get margin requirements',
+					},
+					{
+						name: 'Get Commission',
+						value: 'getCommission',
+						description: 'Get commission calculation',
+						action: 'Get commission calculation',
+					},
+					{
+						name: 'Calculate Profit',
+						value: 'calculateProfit',
+						description: 'Calculate estimated profit',
+						action: 'Calculate estimated profit',
+					},
+				],
+				default: 'getAccountData',
 			},
 			// Parameters for opening trades
 			{
@@ -179,6 +340,90 @@ export class Xtb implements INodeType {
 				default: 0,
 				description: 'Trade price (required for limit and stop orders)',
 			},
+			// Parameters for market data operations
+			{
+				displayName: 'Symbol',
+				name: 'symbol',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['marketData'],
+						operation: ['getSymbol', 'getChartData', 'getTickPrices', 'getTradingHours'],
+					},
+				},
+				default: '',
+				description: 'The symbol to get data for',
+			},
+			{
+				displayName: 'Period',
+				name: 'period',
+				type: 'options',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['marketData'],
+						operation: ['getChartData'],
+					},
+				},
+				options: [
+					{ name: '1 Minute', value: 1 },
+					{ name: '5 Minutes', value: 5 },
+					{ name: '15 Minutes', value: 15 },
+					{ name: '30 Minutes', value: 30 },
+					{ name: '1 Hour', value: 60 },
+					{ name: '4 Hours', value: 240 },
+					{ name: '1 Day', value: 1440 },
+					{ name: '1 Week', value: 10080 },
+					{ name: '1 Month', value: 43200 },
+				],
+				default: 1,
+				description: 'Chart period',
+			},
+			{
+				displayName: 'Start Time',
+				name: 'start',
+				type: 'dateTime',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['marketData'],
+						operation: ['getChartData'],
+					},
+				},
+				default: '',
+				description: 'Start time for chart data',
+			},
+			// Parameters for account operations
+			{
+				displayName: 'Symbol',
+				name: 'symbol',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['account'],
+						operation: ['getMarginTrade', 'getCommission', 'calculateProfit'],
+					},
+				},
+				default: '',
+				description: 'The symbol to calculate for',
+			},
+			{
+				displayName: 'Volume',
+				name: 'volume',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['account'],
+						operation: ['getMarginTrade', 'getCommission', 'calculateProfit'],
+					},
+				},
+				default: 0.1,
+				description: 'Trade volume in lots',
+			},
+			// Additional fields for trading
 			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
@@ -236,6 +481,59 @@ export class Xtb implements INodeType {
 				},
 				default: 0,
 				description: 'The order number to close',
+			},
+			// Parameters for profit calculation
+			{
+				displayName: 'Open Price',
+				name: 'openPrice',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['account'],
+						operation: ['calculateProfit'],
+					},
+				},
+				default: 0,
+				description: 'Opening price for profit calculation',
+			},
+			{
+				displayName: 'Close Price',
+				name: 'closePrice',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['account'],
+						operation: ['calculateProfit'],
+					},
+				},
+				default: 0,
+				description: 'Closing price for profit calculation',
+			},
+			{
+				displayName: 'Operation Type',
+				name: 'cmd',
+				type: 'options',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['account'],
+						operation: ['calculateProfit'],
+					},
+				},
+				options: [
+					{
+						name: 'Buy',
+						value: 0,
+					},
+					{
+						name: 'Sell',
+						value: 1,
+					},
+				],
+				default: 0,
+				description: 'Type of operation for profit calculation',
 			},
 		],
 	};
@@ -335,6 +633,229 @@ export class Xtb implements INodeType {
 			return { trades: tradesResponse.returnData };
 		};
 
+		// Market Data Operations
+		const getAllSymbols = async (): Promise<IDataObject> => {
+			const response = (await wsManager.sendCommand({
+				command: 'getAllSymbols',
+			})) as ISymbolsResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get symbols',
+				);
+			}
+
+			return { symbols: response.returnData };
+		};
+
+		const getSymbol = async (i: number): Promise<IDataObject> => {
+			const symbol = this.getNodeParameter('symbol', i) as string;
+
+			const response = (await wsManager.sendCommand({
+				command: 'getSymbol',
+				arguments: {
+					symbol,
+				},
+			})) as ISymbolResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get symbol',
+				);
+			}
+
+			return { symbolInfo: response.returnData };
+		};
+
+		const getChartData = async (i: number): Promise<IDataObject> => {
+			const symbol = this.getNodeParameter('symbol', i) as string;
+			const period = this.getNodeParameter('period', i) as number;
+			const start = this.getNodeParameter('start', i) as string;
+
+			const response = (await wsManager.sendCommand({
+				command: 'getChartLastRequest',
+				arguments: {
+					info: {
+						period,
+						start: new Date(start).getTime(),
+						symbol,
+					},
+				},
+			})) as IChartResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get chart data',
+				);
+			}
+
+			return {
+				digits: response.returnData.digits,
+				candles: response.returnData.rateInfos,
+			};
+		};
+
+		// Account Operations
+		const getAccountData = async (): Promise<IDataObject> => {
+			const response = (await wsManager.sendCommand({
+				command: 'getCurrentUserData',
+			})) as IAccountDataResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get account data',
+				);
+			}
+
+			return response.returnData;
+		};
+
+		const getMarginLevel = async (): Promise<IDataObject> => {
+			const response = (await wsManager.sendCommand({
+				command: 'getMarginLevel',
+			})) as IMarginLevelResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get margin level',
+				);
+			}
+
+			return response.returnData;
+		};
+
+		const getTickPrices = async (i: number): Promise<IDataObject> => {
+			const symbol = this.getNodeParameter('symbol', i) as string;
+
+			const response = (await wsManager.sendCommand({
+				command: 'getTickPrices',
+				arguments: {
+					level: 0,
+					symbols: [symbol],
+					timestamp: 0,
+				},
+			})) as ITickPricesResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get tick prices',
+				);
+			}
+
+			return {
+				data: {
+					symbol,
+					quotations: response.returnData.quotations,
+				},
+			};
+		};
+
+		const getTradingHours = async (i: number): Promise<IDataObject> => {
+			const symbol = this.getNodeParameter('symbol', i) as string;
+
+			const response = (await wsManager.sendCommand({
+				command: 'getTradingHours',
+				arguments: {
+					symbols: [symbol],
+				},
+			})) as ITradingHoursResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get trading hours',
+				);
+			}
+
+			return {
+				data: {
+					symbol,
+					hours: response.returnData,
+				},
+			};
+		};
+
+		const getMarginTrade = async (i: number): Promise<IDataObject> => {
+			const symbol = this.getNodeParameter('symbol', i) as string;
+			const volume = this.getNodeParameter('volume', i) as number;
+
+			const response = (await wsManager.sendCommand({
+				command: 'getMarginTrade',
+				arguments: {
+					symbol,
+					volume,
+				},
+			})) as IMarginTradeResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get margin trade',
+				);
+			}
+
+			return { margin: response.returnData.margin };
+		};
+
+		const getCommission = async (i: number): Promise<IDataObject> => {
+			const symbol = this.getNodeParameter('symbol', i) as string;
+			const volume = this.getNodeParameter('volume', i) as number;
+
+			const response = (await wsManager.sendCommand({
+				command: 'getCommissionDef',
+				arguments: {
+					symbol,
+					volume,
+				},
+			})) as ICommissionResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to get commission',
+				);
+			}
+
+			return {
+				commission: response.returnData.commission,
+				rateOfExchange: response.returnData.rateOfExchange,
+			};
+		};
+
+		const calculateProfit = async (i: number): Promise<IDataObject> => {
+			const symbol = this.getNodeParameter('symbol', i) as string;
+			const volume = this.getNodeParameter('volume', i) as number;
+			const openPrice = this.getNodeParameter('openPrice', i) as number;
+			const closePrice = this.getNodeParameter('closePrice', i) as number;
+			const cmd = this.getNodeParameter('cmd', i) as number;
+
+			const response = (await wsManager.sendCommand({
+				command: 'getProfitCalculation',
+				arguments: {
+					closePrice,
+					cmd,
+					openPrice,
+					symbol,
+					volume,
+				},
+			})) as IProfitCalculationResponse;
+
+			if (!response.status || !response.returnData) {
+				throw new NodeOperationError(
+					this.getNode(),
+					response.errorDescr || 'Failed to calculate profit',
+				);
+			}
+
+			return { profit: response.returnData.profit };
+		};
+
 		try {
 			// Connect to XTB API
 			await wsManager.connect();
@@ -368,17 +889,67 @@ export class Xtb implements INodeType {
 							break;
 						}
 
-						case 'marketData':
-							throw new NodeOperationError(
-								this.getNode(),
-								'Market data operations not implemented yet',
-							);
+						case 'marketData': {
+							switch (operation) {
+								case 'getAllSymbols':
+									response = await getAllSymbols();
+									break;
 
-						case 'account':
-							throw new NodeOperationError(
-								this.getNode(),
-								'Account operations not implemented yet',
-							);
+								case 'getSymbol':
+									response = await getSymbol(i);
+									break;
+
+								case 'getChartData':
+									response = await getChartData(i);
+									break;
+
+								case 'getTickPrices':
+									response = await getTickPrices(i);
+									break;
+
+								case 'getTradingHours':
+									response = await getTradingHours(i);
+									break;
+
+								default:
+									throw new NodeOperationError(
+										this.getNode(),
+										`Unknown market data operation: ${operation}`,
+									);
+							}
+							break;
+						}
+
+						case 'account': {
+							switch (operation) {
+								case 'getAccountData':
+									response = await getAccountData();
+									break;
+
+								case 'getMarginLevel':
+									response = await getMarginLevel();
+									break;
+
+								case 'getMarginTrade':
+									response = await getMarginTrade(i);
+									break;
+
+								case 'getCommission':
+									response = await getCommission(i);
+									break;
+
+								case 'calculateProfit':
+									response = await calculateProfit(i);
+									break;
+
+								default:
+									throw new NodeOperationError(
+										this.getNode(),
+										`Unknown account operation: ${operation}`,
+									);
+							}
+							break;
+						}
 
 						default:
 							throw new NodeOperationError(this.getNode(), `Unknown resource: ${resource}`);

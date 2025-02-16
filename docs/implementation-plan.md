@@ -1,65 +1,144 @@
-# XTB API Implementation Plan
+# XTB Node Implementation Plan
 
-## Current State
-The implementation currently uses:
-- WebSocket base URL: `wss://ws.xtb.com`
-- Endpoints: `/demo`, `/demoStream`, `/real`, `/realStream`
+## Overview
+This plan outlines the implementation of missing market data and account operations for the XTB node.
 
-## Required Changes
+## 1. Market Data Resource
 
-### 1. WebSocket Updates
-Update WebSocket endpoints in `WebSocketManager.ts`:
-- Change base URL from `wss://ws.xtb.com` to `wss://ws.xapi.pro`
-- Keep existing endpoints:
-  - `/demo`
-  - `/demoStream`
-  - `/real`
-  - `/realStream`
+### New Operations
+1. Get All Symbols
+   - Returns array of all available symbols
+   - No parameters required
+   - Response includes detailed symbol information
 
-### 2. Credentials Updates
-Update `XtbApi.credentials.ts`:
-- Change test request baseURL from `https://ws.xtb.com` to `https://ws.xapi.pro`
+2. Get Symbol
+   - Returns information about a specific symbol
+   - Required parameter: symbol name
+   - Response includes detailed symbol information
 
-### 3. Documentation Updates
-Add comprehensive documentation about all available endpoints:
+3. Get Chart Data
+   - Returns chart data for a symbol
+   - Required parameters:
+     - Symbol
+     - Period
+     - Start time
+   - Optional parameters:
+     - End time
+     - Ticks count
 
-#### WebSocket Endpoints
-```
-wss://ws.xapi.pro/demo
-wss://ws.xapi.pro/demoStream
-wss://ws.xapi.pro/real
-wss://ws.xapi.pro/realStream
-```
+4. Get Tick Prices
+   - Returns current prices for symbols
+   - Required parameters:
+     - Symbols array
+     - Level
+   - Optional parameter: timestamp
 
-#### REST API Hosts
-Two interchangeable addresses:
-- `xapia.x-station.eu`
-- `xapib.x-station.eu`
+5. Get Trading Hours
+   - Returns trading hours for symbols
+   - Required parameter: symbols array
+   - Response includes quotes and trading times
 
-Port configurations:
-- DEMO:
-  - Main port: 5124
-  - Streaming port: 5125
-- REAL:
-  - Main port: 5112
-  - Streaming port: 5113
+### Implementation Steps
+1. Add market data operations to node properties
+2. Create interfaces for response types
+3. Implement operation handlers
+4. Add parameter validation
+5. Add error handling
 
-## Implementation Steps
+## 2. Account Resource
 
-1. Update WebSocketManager.ts:
-   - Modify getMainSocketUrl() method
-   - Modify getStreamSocketUrl() method
+### New Operations
+1. Get Account Data
+   - Returns account information
+   - No parameters required
+   - Response includes currency, leverage, etc.
 
-2. Update XtbApi.credentials.ts:
-   - Update test request baseURL
-   - Add comprehensive documentation in comments
+2. Get Margin Level
+   - Returns account indicators
+   - No parameters required
+   - Response includes balance, equity, margin
 
-3. Test Changes:
-   - Test WebSocket connections for both demo and real accounts
-   - Verify all endpoints are accessible
-   - Ensure backward compatibility
+3. Get Margin Trade
+   - Returns margin requirements
+   - Required parameters:
+     - Symbol
+     - Volume
+   - Response includes calculated margin
 
-## Notes
-- All servers use SSL connection
-- Communication is established as long as both server and client have opened and connected sockets
-- Server guarantees that every separate reply to client command will be separated by two new line characters ("\n")
+4. Get Commission
+   - Returns commission calculation
+   - Required parameters:
+     - Symbol
+     - Volume
+   - Response includes commission and exchange rate
+
+5. Calculate Profit
+   - Calculates estimated profit
+   - Required parameters:
+     - Symbol
+     - Volume
+     - Command type
+     - Open price
+     - Close price
+   - Response includes calculated profit
+
+### Implementation Steps
+1. Add account operations to node properties
+2. Create interfaces for response types
+3. Implement operation handlers
+4. Add parameter validation
+5. Add error handling
+
+## 3. Common Implementation Tasks
+
+1. Update Node Properties
+   - Add new operations to resource options
+   - Add operation-specific parameters
+   - Add parameter validation rules
+
+2. Create Type Definitions
+   - Define interfaces for all response types
+   - Define interfaces for request parameters
+   - Update existing type definitions if needed
+
+3. Implement Helper Functions
+   - Create reusable validation functions
+   - Create error handling utilities
+   - Create parameter processing helpers
+
+4. Testing
+   - Test each new operation
+   - Verify error handling
+   - Test parameter validation
+   - Test response processing
+
+## 4. Implementation Order
+
+1. Account Operations
+   - Simpler operations first (getCurrentUserData, getMarginLevel)
+   - More complex operations later (getProfitCalculation)
+
+2. Market Data Operations
+   - Basic operations first (getAllSymbols, getSymbol)
+   - Chart and price operations later
+   - Trading hours last
+
+## 5. Quality Assurance
+
+1. Code Quality
+   - Follow existing code style
+   - Add proper error handling
+   - Add parameter validation
+   - Add proper typing
+
+2. Testing
+   - Test all operations
+   - Test error cases
+   - Test parameter validation
+   - Test response handling
+
+3. Documentation
+   - Update node description
+   - Add operation descriptions
+   - Add parameter descriptions
+   - Add example usage
