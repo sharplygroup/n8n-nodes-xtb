@@ -12,11 +12,7 @@ export class AccountResource {
 		private readonly executeFunctions: IExecuteFunctions,
 	) {}
 
-	async execute(
-		items: INodeExecutionData[],
-		i: number,
-		operation: string,
-	): Promise<IDataObject> {
+	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
 		switch (operation) {
 			case 'getAccountData':
 				return this.getAccountData();

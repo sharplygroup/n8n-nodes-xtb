@@ -8,9 +8,7 @@ export const tradingParameters: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'trading',
-				],
+				resource: ['trading'],
 			},
 		},
 		options: [
@@ -43,12 +41,8 @@ export const tradingParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'trading',
-				],
-				operation: [
-					'openTrade',
-				],
+				resource: ['trading'],
+				operation: ['openTrade'],
 			},
 		},
 		default: '',
@@ -61,12 +55,8 @@ export const tradingParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'trading',
-				],
-				operation: [
-					'openTrade',
-				],
+				resource: ['trading'],
+				operation: ['openTrade'],
 			},
 		},
 		options: [
@@ -105,12 +95,8 @@ export const tradingParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'trading',
-				],
-				operation: [
-					'openTrade',
-				],
+				resource: ['trading'],
+				operation: ['openTrade'],
 			},
 		},
 		default: 0.1,
@@ -123,12 +109,8 @@ export const tradingParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'trading',
-				],
-				operation: [
-					'openTrade',
-				],
+				resource: ['trading'],
+				operation: ['openTrade'],
 			},
 		},
 		default: 0,
@@ -143,12 +125,8 @@ export const tradingParameters: INodeProperties[] = [
 		default: {},
 		displayOptions: {
 			show: {
-				resource: [
-					'trading',
-				],
-				operation: [
-					'openTrade',
-				],
+				resource: ['trading'],
+				operation: ['openTrade'],
 			},
 		},
 		options: [
@@ -190,12 +168,8 @@ export const tradingParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'trading',
-				],
-				operation: [
-					'closeTrade',
-				],
+				resource: ['trading'],
+				operation: ['closeTrade'],
 			},
 		},
 		default: 0,

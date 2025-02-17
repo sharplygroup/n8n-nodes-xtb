@@ -12,11 +12,7 @@ export class TradingResource {
 		private readonly executeFunctions: IExecuteFunctions,
 	) {}
 
-	async execute(
-		items: INodeExecutionData[],
-		i: number,
-		operation: string,
-	): Promise<IDataObject> {
+	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
 		switch (operation) {
 			case 'openTrade':
 				return this.openTrade(items, i);
@@ -37,7 +33,10 @@ export class TradingResource {
 		const cmd = this.executeFunctions.getNodeParameter('cmd', i) as number;
 		const volume = this.executeFunctions.getNodeParameter('volume', i) as number;
 		const price = this.executeFunctions.getNodeParameter('price', i) as number;
-		const additionalFields = this.executeFunctions.getNodeParameter('additionalFields', i) as IDataObject;
+		const additionalFields = this.executeFunctions.getNodeParameter(
+			'additionalFields',
+			i,
+		) as IDataObject;
 		return this.tradingOperations.openTrade(symbol, cmd, volume, price, additionalFields);
 	}
 

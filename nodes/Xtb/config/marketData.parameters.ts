@@ -8,9 +8,7 @@ export const marketDataParameters: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'marketData',
-				],
+				resource: ['marketData'],
 			},
 		},
 		options: [
@@ -54,15 +52,8 @@ export const marketDataParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'marketData',
-				],
-				operation: [
-					'getSymbol',
-					'getChartData',
-					'getTickPrices',
-					'getTradingHours',
-				],
+				resource: ['marketData'],
+				operation: ['getSymbol', 'getChartData', 'getTickPrices', 'getTradingHours'],
 			},
 		},
 		default: '',
@@ -75,12 +66,8 @@ export const marketDataParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'marketData',
-				],
-				operation: [
-					'getChartData',
-				],
+				resource: ['marketData'],
+				operation: ['getChartData'],
 			},
 		},
 		options: [
@@ -104,12 +91,8 @@ export const marketDataParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'marketData',
-				],
-				operation: [
-					'getChartData',
-				],
+				resource: ['marketData'],
+				operation: ['getChartData'],
 			},
 		},
 		default: '',

@@ -1,8 +1,4 @@
-import {
-	IExecuteFunctions,
-	IDataObject,
-	NodeOperationError,
-} from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { WebSocketManager } from '../utils/WebSocketManager';
 import { IAccountDataResponse } from '../interfaces/IAccountDataResponse';
 import { IMarginLevelResponse } from '../interfaces/IMarginLevelResponse';
@@ -11,7 +7,10 @@ import { ICommissionResponse } from '../interfaces/ICommissionResponse';
 import { IProfitCalculationResponse } from '../interfaces/IProfitCalculationResponse';
 
 export class AccountOperations {
-	constructor(private readonly wsManager: WebSocketManager, private readonly node: IExecuteFunctions) {}
+	constructor(
+		private readonly wsManager: WebSocketManager,
+		private readonly node: IExecuteFunctions,
+	) {}
 
 	async getAccountData(): Promise<IDataObject> {
 		const response = (await this.wsManager.sendCommand({
@@ -19,10 +18,7 @@ export class AccountOperations {
 		})) as IAccountDataResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get account data',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get account data');
 		}
 
 		return response.returnData;
@@ -34,10 +30,7 @@ export class AccountOperations {
 		})) as IMarginLevelResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get margin level',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get margin level');
 		}
 
 		return response.returnData;
@@ -53,10 +46,7 @@ export class AccountOperations {
 		})) as IMarginTradeResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get margin trade',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get margin trade');
 		}
 
 		return { margin: response.returnData.margin };
@@ -72,10 +62,7 @@ export class AccountOperations {
 		})) as ICommissionResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get commission',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get commission');
 		}
 
 		return {
@@ -84,7 +71,13 @@ export class AccountOperations {
 		};
 	}
 
-	async calculateProfit(symbol: string, volume: number, openPrice: number, closePrice: number, cmd: number): Promise<IDataObject> {
+	async calculateProfit(
+		symbol: string,
+		volume: number,
+		openPrice: number,
+		closePrice: number,
+		cmd: number,
+	): Promise<IDataObject> {
 		const response = (await this.wsManager.sendCommand({
 			command: 'getProfitCalculation',
 			arguments: {
@@ -97,10 +90,7 @@ export class AccountOperations {
 		})) as IProfitCalculationResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to calculate profit',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to calculate profit');
 		}
 
 		return { profit: response.returnData.profit };

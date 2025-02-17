@@ -12,11 +12,7 @@ export class MarketDataResource {
 		private readonly executeFunctions: IExecuteFunctions,
 	) {}
 
-	async execute(
-		items: INodeExecutionData[],
-		i: number,
-		operation: string,
-	): Promise<IDataObject> {
+	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
 		switch (operation) {
 			case 'getAllSymbols':
 				return this.getAllSymbols();

@@ -1,15 +1,14 @@
-import {
-	IExecuteFunctions,
-	IDataObject,
-	NodeOperationError,
-} from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { WebSocketManager } from '../utils/WebSocketManager';
 import { ITradeTransactionResponse } from '../interfaces/ITradeTransactionResponse';
 import { ITradeStatusResponse } from '../interfaces/ITradeStatusResponse';
 import { ITradesResponse } from '../interfaces/ITradesResponse';
 
 export class TradingOperations {
-	constructor(private readonly wsManager: WebSocketManager, private readonly node: IExecuteFunctions) {}
+	constructor(
+		private readonly wsManager: WebSocketManager,
+		private readonly node: IExecuteFunctions,
+	) {}
 
 	async handleTradeTransaction(tradeInfo: IDataObject): Promise<IDataObject> {
 		const tradeResponse = (await this.wsManager.sendCommand({
@@ -44,7 +43,13 @@ export class TradingOperations {
 		return statusResponse.returnData;
 	}
 
-	async openTrade(symbol: string, cmd: number, volume: number, price: number, additionalFields: IDataObject): Promise<IDataObject> {
+	async openTrade(
+		symbol: string,
+		cmd: number,
+		volume: number,
+		price: number,
+		additionalFields: IDataObject,
+	): Promise<IDataObject> {
 		const tradeInfo = {
 			cmd,
 			symbol,
@@ -76,10 +81,7 @@ export class TradingOperations {
 		})) as ITradesResponse;
 
 		if (!tradesResponse.status || !tradesResponse.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				tradesResponse.errorDescr || 'Failed to get trades',
-			);
+			throw new NodeOperationError(this.node, tradesResponse.errorDescr || 'Failed to get trades');
 		}
 
 		return { trades: tradesResponse.returnData };

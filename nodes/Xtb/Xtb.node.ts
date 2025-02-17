@@ -4,7 +4,7 @@ import {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
-  NodeOperationError,
+	NodeOperationError,
 } from 'n8n-workflow';
 import { WebSocketManager, IXtbCredentials } from 'utils/WebSocketManager';
 import { TradingOperations } from 'lib/TradingOperations';
@@ -93,8 +93,7 @@ export class Xtb implements INodeType {
 		const marketDataResource = new MarketDataResource(marketDataOperations, this);
 		const accountResource = new AccountResource(accountOperations, this);
 		const additionalResource = new AdditionalResource(additionalOperations, this);
-
-		 try {
+		try {
 			// Connect to XTB API
 			await wsManager.connect();
 

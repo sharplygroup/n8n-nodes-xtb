@@ -22,11 +22,11 @@ export class WebSocketManager {
 	private streamSocket: WebSocket | null = null;
 	private pingInterval: NodeJS.Timeout | null = null;
 	private streamSessionId: string | null = null;
-	
+
 	public getStreamSessionId(): string | null {
 		return this.streamSessionId;
 	}
-	
+
 	private readonly credentials: IXtbCredentials;
 	private readonly isDemo: boolean;
 
@@ -55,7 +55,11 @@ export class WebSocketManager {
 			// Login
 			const loginResponse = await this.login();
 			if (!loginResponse.status) {
-				throw new XtbLoginError(this, loginResponse.errorDescr || 'Login failed', loginResponse.errorCode);
+				throw new XtbLoginError(
+					this,
+					loginResponse.errorDescr || 'Login failed',
+					loginResponse.errorCode,
+				);
 			}
 
 			this.streamSessionId = loginResponse.streamSessionId || null;

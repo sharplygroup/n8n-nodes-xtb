@@ -8,9 +8,7 @@ export const accountParameters: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'account',
-				],
+				resource: ['account'],
 			},
 		},
 		options: [
@@ -54,14 +52,8 @@ export const accountParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'account',
-				],
-				operation: [
-					'getMarginTrade',
-					'getCommission',
-					'calculateProfit',
-				],
+				resource: ['account'],
+				operation: ['getMarginTrade', 'getCommission', 'calculateProfit'],
 			},
 		},
 		default: '',
@@ -74,14 +66,8 @@ export const accountParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'account',
-				],
-				operation: [
-					'getMarginTrade',
-					'getCommission',
-					'calculateProfit',
-				],
+				resource: ['account'],
+				operation: ['getMarginTrade', 'getCommission', 'calculateProfit'],
 			},
 		},
 		default: 0.1,
@@ -95,12 +81,8 @@ export const accountParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'account',
-				],
-				operation: [
-					'calculateProfit',
-				],
+				resource: ['account'],
+				operation: ['calculateProfit'],
 			},
 		},
 		default: 0,
@@ -113,12 +95,8 @@ export const accountParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'account',
-				],
-				operation: [
-					'calculateProfit',
-				],
+				resource: ['account'],
+				operation: ['calculateProfit'],
 			},
 		},
 		default: 0,
@@ -131,12 +109,8 @@ export const accountParameters: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'account',
-				],
-				operation: [
-					'calculateProfit',
-				],
+				resource: ['account'],
+				operation: ['calculateProfit'],
 			},
 		},
 		options: [

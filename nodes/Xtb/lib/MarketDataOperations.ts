@@ -1,8 +1,4 @@
-import {
-	IExecuteFunctions,
-	IDataObject,
-	NodeOperationError,
-} from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { WebSocketManager } from '../utils/WebSocketManager';
 import { ISymbolResponse } from '../interfaces/ISymbolResponse';
 import { ISymbolsResponse } from '../interfaces/ISymbolsResponse';
@@ -11,7 +7,10 @@ import { ITickPricesResponse } from '../interfaces/ITickPricesResponse';
 import { ITradingHoursResponse } from '../interfaces/ITradingHoursResponse';
 
 export class MarketDataOperations {
-	constructor(private readonly wsManager: WebSocketManager, private readonly node: IExecuteFunctions) {}
+	constructor(
+		private readonly wsManager: WebSocketManager,
+		private readonly node: IExecuteFunctions,
+	) {}
 
 	async getAllSymbols(): Promise<IDataObject> {
 		const response = (await this.wsManager.sendCommand({
@@ -19,10 +18,7 @@ export class MarketDataOperations {
 		})) as ISymbolsResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get symbols',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get symbols');
 		}
 
 		return { symbols: response.returnData };
@@ -37,10 +33,7 @@ export class MarketDataOperations {
 		})) as ISymbolResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get symbol',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get symbol');
 		}
 
 		return { symbolInfo: response.returnData };
@@ -59,10 +52,7 @@ export class MarketDataOperations {
 		})) as IChartResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get chart data',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get chart data');
 		}
 
 		return {
@@ -82,10 +72,7 @@ export class MarketDataOperations {
 		})) as ITickPricesResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get tick prices',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get tick prices');
 		}
 
 		return {
@@ -105,10 +92,7 @@ export class MarketDataOperations {
 		})) as ITradingHoursResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(
-				this.node,
-				response.errorDescr || 'Failed to get trading hours',
-			);
+			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get trading hours');
 		}
 
 		return {
