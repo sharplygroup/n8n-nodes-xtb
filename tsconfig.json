@@ -20,6 +20,10 @@
 		"sourceMap": true,
 		"skipLibCheck": true,
 		"outDir": "./dist/",
+		"baseUrl": ".",
+		"paths": {
+			"*": ["./*"]
+		}
 	},
 	"include": [
 		"credentials/**/*",

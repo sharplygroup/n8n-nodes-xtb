@@ -6,16 +6,16 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { WebSocketManager, IXtbCredentials } from './utils/WebSocketManager';
-import { TradingOperations } from './lib/TradingOperations';
-import { MarketDataOperations } from './lib/MarketDataOperations';
-import { AccountOperations } from './lib/AccountOperations';
-import { TradingResource } from './lib/TradingResource';
-import { MarketDataResource } from './lib/MarketDataResource';
-import { AccountResource } from './lib/AccountResource';
-import { tradingParameters } from './config/trading.parameters';
-import { marketDataParameters } from './config/marketData.parameters';
-import { accountParameters } from './config/account.parameters';
+import { WebSocketManager, IXtbCredentials } from 'nodes/Xtb/utils/WebSocketManager';
+import { TradingOperations } from 'nodes/Xtb/lib/TradingOperations';
+import { MarketDataOperations } from 'nodes/Xtb/lib/MarketDataOperations';
+import { AccountOperations } from 'nodes/Xtb/lib/AccountOperations';
+import { TradingResource } from 'nodes/Xtb/lib/TradingResource';
+import { MarketDataResource } from 'nodes/Xtb/lib/MarketDataResource';
+import { AccountResource } from 'nodes/Xtb/lib/AccountResource';
+import { tradingParameters } from 'nodes/Xtb/config/trading.parameters';
+import { marketDataParameters } from 'nodes/Xtb/config/marketData.parameters';
+import { accountParameters } from 'nodes/Xtb/config/account.parameters';
 import { INodeProperties } from 'n8n-workflow';
 
 export class Xtb implements INodeType {

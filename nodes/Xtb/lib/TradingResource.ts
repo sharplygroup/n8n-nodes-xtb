@@ -4,7 +4,7 @@ import {
 	INodeExecutionData,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { TradingOperations } from './TradingOperations';
+import { TradingOperations } from 'nodes/Xtb/lib/TradingOperations';
 
 export class TradingResource {
 	constructor(
