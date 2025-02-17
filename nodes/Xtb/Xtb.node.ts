@@ -4,7 +4,7 @@ import {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
-	NodeOperationError,
+  NodeOperationError,
 } from 'n8n-workflow';
 import { WebSocketManager, IXtbCredentials } from 'utils/WebSocketManager';
 import { TradingOperations } from 'lib/TradingOperations';

@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
 import { IDataObject } from 'n8n-workflow';
-import { XtbLoginError, XtbConnectionError } from '../errors';
+import { XtbLoginError } from '../errors/XtbLoginError';
+import { XtbConnectionError } from '../errors/XtbConnectionError';
 
 export interface IXtbCredentials {
 	userId: string;
