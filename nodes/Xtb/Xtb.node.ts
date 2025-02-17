@@ -21,8 +21,6 @@ import { IProfitCalculationResponse } from './interfaces/IProfitCalculationRespo
 import { IAccountDataResponse } from './interfaces/IAccountDataResponse';
 import { IMarginLevelResponse } from './interfaces/IMarginLevelResponse';
 
-// Response interfaces
-
 export class Xtb implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'XTB',
