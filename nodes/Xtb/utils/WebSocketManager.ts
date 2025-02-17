@@ -22,6 +22,11 @@ export class WebSocketManager {
 	private streamSocket: WebSocket | null = null;
 	private pingInterval: NodeJS.Timeout | null = null;
 	private streamSessionId: string | null = null;
+	
+	public getStreamSessionId(): string | null {
+		return this.streamSessionId;
+	}
+	
 	private readonly credentials: IXtbCredentials;
 	private readonly isDemo: boolean;
 

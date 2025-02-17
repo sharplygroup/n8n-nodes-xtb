@@ -13,6 +13,8 @@ import { AccountOperations } from 'lib/AccountOperations';
 import { TradingResource } from 'lib/TradingResource';
 import { MarketDataResource } from 'lib/MarketDataResource';
 import { AccountResource } from 'lib/AccountResource';
+import { AdditionalOperations } from 'lib/AdditionalOperations';
+import { AdditionalResource } from 'lib/AdditionalResource';
 import { tradingParameters } from 'config/trading.parameters';
 import { marketDataParameters } from 'config/marketData.parameters';
 import { accountParameters } from 'config/account.parameters';
@@ -57,6 +59,10 @@ export class Xtb implements INodeType {
 						name: 'Account',
 						value: 'account',
 					},
+					{
+						name: 'Additional',
+						value: 'additional',
+					},
 				],
 				default: 'trading',
 			},
@@ -81,12 +87,14 @@ export class Xtb implements INodeType {
 		const tradingOperations = new TradingOperations(wsManager, this);
 		const marketDataOperations = new MarketDataOperations(wsManager, this);
 		const accountOperations = new AccountOperations(wsManager, this);
+		const additionalOperations = new AdditionalOperations(wsManager);
 
 		const tradingResource = new TradingResource(tradingOperations, this);
 		const marketDataResource = new MarketDataResource(marketDataOperations, this);
 		const accountResource = new AccountResource(accountOperations, this);
+		const additionalResource = new AdditionalResource(additionalOperations, this);
 
-		try {
+		 try {
 			// Connect to XTB API
 			await wsManager.connect();
 
@@ -101,6 +109,8 @@ export class Xtb implements INodeType {
 						response = await marketDataResource.execute(items, i, operation);
 					} else if (resource === 'account') {
 						response = await accountResource.execute(items, i, operation);
+					} else if (resource === 'additional') {
+						response = await additionalResource.execute(items, i, operation);
 					} else {
 						throw new NodeOperationError(this.getNode(), `Unknown resource: ${resource}`);
 					}
