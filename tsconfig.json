@@ -20,7 +20,7 @@
 		"sourceMap": true,
 		"skipLibCheck": true,
 		"outDir": "./dist/",
-		"baseUrl": ".",
+		"baseUrl": "nodes/Xtb",
 		"paths": {
 			"*": ["./*"]
 		}

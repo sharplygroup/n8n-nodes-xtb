@@ -4,7 +4,7 @@ import {
 	INodeExecutionData,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { AccountOperations } from 'nodes/Xtb/lib/AccountOperations';
+import { AccountOperations } from 'lib/AccountOperations';
 
 export class AccountResource {
 	constructor(
