@@ -18,6 +18,7 @@ import { AdditionalResource } from 'lib/AdditionalResource';
 import { tradingParameters } from 'config/trading.parameters';
 import { marketDataParameters } from 'config/marketData.parameters';
 import { accountParameters } from 'config/account.parameters';
+import { additionalParameters } from 'config/additional.parameters';
 import { INodeProperties } from 'n8n-workflow';
 
 export class Xtb implements INodeType {
@@ -28,7 +29,7 @@ export class Xtb implements INodeType {
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Interact with XTB Trading API',
+		description: 'Interact with XTB Trading API. Supports Trading, Market Data, Account and Additional resources.',
 		defaults: {
 			name: 'XTB',
 		},
@@ -69,6 +70,7 @@ export class Xtb implements INodeType {
 			...tradingParameters,
 			...marketDataParameters,
 			...accountParameters,
+			...additionalParameters,
 		] as INodeProperties[],
 	};
 
