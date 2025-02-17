@@ -1,5 +1,6 @@
 import WebSocket from 'ws';
 import { IDataObject } from 'n8n-workflow';
+import { XtbLoginError, XtbConnectionError } from '../errors';
 
 export interface IXtbCredentials {
 	userId: string;
@@ -48,7 +49,7 @@ export class WebSocketManager {
 			// Login
 			const loginResponse = await this.login();
 			if (!loginResponse.status) {
-				throw new Error(loginResponse.errorDescr || 'Login failed');
+				throw new XtbLoginError(this, loginResponse.errorDescr || 'Login failed', loginResponse.errorCode);
 			}
 
 			this.streamSessionId = loginResponse.streamSessionId || null;
@@ -71,8 +72,8 @@ export class WebSocketManager {
 	private waitForConnection(socket: WebSocket): Promise<void> {
 		return new Promise((resolve, reject) => {
 			const timeout = setTimeout(() => {
-				reject(new Error('Connection timeout'));
-			}, 10000);
+				reject(new XtbConnectionError(this, 'Connection timeout'));
+			}, 30000);
 
 			socket.once('open', () => {
 				clearTimeout(timeout);
@@ -81,7 +82,7 @@ export class WebSocketManager {
 
 			socket.once('error', (error) => {
 				clearTimeout(timeout);
-				reject(error);
+				reject(new XtbConnectionError(this, error.message));
 			});
 		});
 	}
