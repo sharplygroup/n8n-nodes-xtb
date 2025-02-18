@@ -1,10 +1,10 @@
 import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
-import { WebSocketManager } from '../utils/WebSocketManager';
-import { ISymbolResponse } from '../interfaces/ISymbolResponse';
-import { ISymbolsResponse } from '../interfaces/ISymbolsResponse';
-import { IChartResponse } from '../interfaces/IChartResponse';
-import { ITickPricesResponse } from '../interfaces/ITickPricesResponse';
-import { ITradingHoursResponse } from '../interfaces/ITradingHoursResponse';
+import { WebSocketManager } from '../../utils/WebSocketManager';
+import { ISymbolResponse } from '../../interfaces/ISymbolResponse';
+import { ISymbolsResponse } from '../../interfaces/ISymbolsResponse';
+import { IChartResponse } from '../../interfaces/IChartResponse';
+import { ITickPricesResponse } from '../../interfaces/ITickPricesResponse';
+import { ITradingHoursResponse } from '../../interfaces/ITradingHoursResponse';
 
 export class MarketDataOperations {
 	constructor(

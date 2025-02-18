@@ -6,15 +6,15 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { WebSocketManager, IXtbCredentials } from 'utils/WebSocketManager';
-import { TradingOperations } from 'lib/TradingOperations';
-import { MarketDataOperations } from 'lib/MarketDataOperations';
-import { AccountOperations } from 'lib/AccountOperations';
-import { TradingResource } from 'lib/TradingResource';
-import { MarketDataResource } from 'lib/MarketDataResource';
-import { AccountResource } from 'lib/AccountResource';
-import { AdditionalOperations } from 'lib/AdditionalOperations';
-import { AdditionalResource } from 'lib/AdditionalResource';
+import { WebSocketManager, IXtbCredentials } from './utils/WebSocketManager';
+import { TradingOperations } from './lib/operations/TradingOperations';
+import { MarketDataOperations } from './lib/operations/MarketDataOperations';
+import { AccountOperations } from './lib/operations/AccountOperations';
+import { TradingResource } from './lib/resources/TradingResource';
+import { MarketDataResource } from './lib/resources/MarketDataResource';
+import { AccountResource } from './lib/resources/AccountResource';
+import { AdditionalOperations } from './lib/operations/AdditionalOperations';
+import { AdditionalResource } from './lib/resources/AdditionalResource';
 import { tradingParameters } from 'config/trading.parameters';
 import { marketDataParameters } from 'config/marketData.parameters';
 import { accountParameters } from 'config/account.parameters';
@@ -29,7 +29,8 @@ export class Xtb implements INodeType {
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Interact with XTB Trading API. Supports Trading, Market Data, Account and Additional resources.',
+		description:
+			'Interact with XTB Trading API. Supports Trading, Market Data, Account and Additional resources.',
 		defaults: {
 			name: 'XTB',
 		},

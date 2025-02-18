@@ -1,5 +1,5 @@
 import { IDataObject } from 'n8n-workflow';
-import { WebSocketManager } from './../utils/WebSocketManager';
+import { WebSocketManager } from '../../utils/WebSocketManager';
 
 export class AdditionalOperations {
 	constructor(private readonly wsManager: WebSocketManager) {}

@@ -1,5 +1,5 @@
 import { IExecuteFunctions, IDataObject, INodeExecutionData } from 'n8n-workflow';
-import { AdditionalOperations } from './AdditionalOperations';
+import { AdditionalOperations } from '../operations/AdditionalOperations';
 
 export class AdditionalResource {
 	constructor(

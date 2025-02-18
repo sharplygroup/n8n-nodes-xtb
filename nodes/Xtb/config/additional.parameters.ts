@@ -8,86 +8,85 @@ export const additionalParameters: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: [
-					'additional',
-				],
+				resource: ['additional'],
 			},
 		},
 		options: [
 			{
 				name: 'Get Balance',
 				value: 'getBalance',
-				description: 'Get balance',
+				action: 'Get balance an additional',
 			},
 			{
 				name: 'Get Calendar',
 				value: 'getCalendar',
-				description: 'Get calendar',
+				action: 'Get calendar an additional',
 			},
 			{
 				name: 'Get Candles',
 				value: 'getCandles',
-				description: 'Get candles',
+				action: 'Get candles an additional',
 			},
 			{
 				name: 'Get IBS History',
 				value: 'getIbsHistory',
-				description: 'Get IBS history',
+				action: 'Get ibs history an additional',
 			},
 			{
 				name: 'Get Keep Alive',
 				value: 'getKeepAlive',
-				description: 'Get keep alive',
+				action: 'Get keep alive an additional',
 			},
 			{
 				name: 'Get News',
 				value: 'getNews',
-				description: 'Get news',
+				action: 'Get news an additional',
 			},
 			{
 				name: 'Get Profits',
 				value: 'getProfits',
-				description: 'Get profits',
+				action: 'Get profits an additional',
 			},
 			{
 				name: 'Get Server Time',
 				value: 'getServerTime',
-				description: 'Get server time',
+				action: 'Get server time an additional',
 			},
 			{
 				name: 'Get Step Rules',
 				value: 'getStepRules',
-				description: 'Get step rules',
+				action: 'Get step rules an additional',
 			},
 			{
 				name: 'Get Trade Records',
 				value: 'getTradeRecords',
-				description: 'Get trade records',
+				action: 'Get trade records an additional',
 			},
 			{
 				name: 'Get Trade Status',
 				value: 'getTradeStatus',
-				description: 'Get trade status',
+				action: 'Get trade status an additional',
 			},
 			{
 				name: 'Get Trades History',
 				value: 'getTradesHistory',
-				description: 'Get trades history',
+				action: 'Get trades history an additional',
 			},
 			{
 				name: 'Get Version',
 				value: 'getVersion',
-				description: 'Get version',
+				action: 'Get version an additional',
 			},
 			{
 				name: 'Ping',
 				value: 'ping',
-				description: 'Ping',
+				action: 'Ping an additional',
 			},
 			{
 				name: 'Trade Transaction Status',
 				value: 'tradeTransactionStatus',
 				description: 'Get trade transaction status',
+				action: 'Trade transaction status an additional',
 			},
 		],
 		default: 'getBalance',
@@ -100,13 +99,8 @@ export const additionalParameters: INodeProperties[] = [
 		description: 'Start time',
 		displayOptions: {
 			show: {
-				resource: [
-					'additional',
-				],
-				operation: [
-					'getIbsHistory',
-					'getTradesHistory',
-				],
+				resource: ['additional'],
+				operation: ['getIbsHistory', 'getTradesHistory'],
 			},
 		},
 	},
@@ -118,13 +112,8 @@ export const additionalParameters: INodeProperties[] = [
 		description: 'End time',
 		displayOptions: {
 			show: {
-				resource: [
-					'additional',
-				],
-				operation: [
-					'getIbsHistory',
-					'getTradesHistory',
-				],
+				resource: ['additional'],
+				operation: ['getIbsHistory', 'getTradesHistory'],
 			},
 		},
 	},
@@ -136,15 +125,10 @@ export const additionalParameters: INodeProperties[] = [
 			multipleValues: true,
 		},
 		default: 0,
-		description: 'Orders',
 		displayOptions: {
 			show: {
-				resource: [
-					'additional',
-				],
-				operation: [
-					'getTradeRecords',
-				],
+				resource: ['additional'],
+				operation: ['getTradeRecords'],
 			},
 		},
 	},
@@ -153,15 +137,10 @@ export const additionalParameters: INodeProperties[] = [
 		name: 'order',
 		type: 'number',
 		default: 0,
-		description: 'Order',
 		displayOptions: {
 			show: {
-				resource: [
-					'additional',
-				],
-				operation: [
-					'tradeTransactionStatus',
-				],
+				resource: ['additional'],
+				operation: ['tradeTransactionStatus'],
 			},
 		},
 	},
@@ -170,15 +149,10 @@ export const additionalParameters: INodeProperties[] = [
 		name: 'symbol',
 		type: 'string',
 		default: '',
-		description: 'Symbol',
 		displayOptions: {
 			show: {
-				resource: [
-					'additional',
-				],
-				operation: [
-					'getCandles',
-				],
+				resource: ['additional'],
+				operation: ['getCandles'],
 			},
 		},
 	},
