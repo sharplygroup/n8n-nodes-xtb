@@ -87,9 +87,9 @@ export class Xtb implements INodeType {
 		// Initialize WebSocket manager
 		const wsManager = new WebSocketManager(credentials);
 
-		const tradingOperations = new TradingOperations(wsManager, this);
-		const marketDataOperations = new MarketDataOperations(wsManager, this);
-		const accountOperations = new AccountOperations(wsManager, this);
+		const tradingOperations = new TradingOperations(wsManager);
+		const marketDataOperations = new MarketDataOperations(wsManager);
+		const accountOperations = new AccountOperations(wsManager);
 		const additionalOperations = new AdditionalOperations(wsManager);
 
 		const tradingResource = new TradingResource(tradingOperations, this);

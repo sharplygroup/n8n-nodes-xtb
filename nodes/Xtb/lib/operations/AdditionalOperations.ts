@@ -1,10 +1,9 @@
-import { IDataObject } from 'n8n-workflow';
 import { WebSocketManager } from '../../utils/WebSocketManager';
 
 export class AdditionalOperations {
 	constructor(private readonly wsManager: WebSocketManager) {}
 
-	async getCalendar(): Promise<IDataObject> {
+	async getCalendar(): Promise<any> {
 		const response = await this.wsManager.sendCommand({
 			command: 'getCalendar',
 		});
@@ -14,7 +13,7 @@ export class AdditionalOperations {
 		return response.returnData || {};
 	}
 
-	async getIbsHistory(start: number, end: number): Promise<IDataObject> {
+	async getIbsHistory(start: number, end: number): Promise<any> {
 		const response = await this.wsManager.sendCommand({
 			command: 'getIbsHistory',
 			arguments: {
@@ -28,7 +27,7 @@ export class AdditionalOperations {
 		return response.returnData || {};
 	}
 
-	async getServerTime(): Promise<IDataObject> {
+	async getServerTime(): Promise<any> {
 		const response = await this.wsManager.sendCommand({
 			command: 'getServerTime',
 		});
@@ -38,7 +37,7 @@ export class AdditionalOperations {
 		return response.returnData || {};
 	}
 
-	async getStepRules(): Promise<IDataObject> {
+	async getStepRules(): Promise<any> {
 		const response = await this.wsManager.sendCommand({
 			command: 'getStepRules',
 		});
@@ -48,7 +47,7 @@ export class AdditionalOperations {
 		return response.returnData || {};
 	}
 
-	async getTradeRecords(orders: number[]): Promise<IDataObject> {
+	async getTradeRecords(orders: number[]): Promise<any> {
 		const response = await this.wsManager.sendCommand({
 			command: 'getTradeRecords',
 			arguments: {
@@ -61,7 +60,7 @@ export class AdditionalOperations {
 		return response.returnData || {};
 	}
 
-	async getTradesHistory(start: number, end: number): Promise<IDataObject> {
+	async getTradesHistory(start: number, end: number): Promise<any> {
 		const response = await this.wsManager.sendCommand({
 			command: 'getTradesHistory',
 			arguments: {
@@ -75,7 +74,7 @@ export class AdditionalOperations {
 		return response.returnData || {};
 	}
 
-	async getVersion(): Promise<IDataObject> {
+	async getVersion(): Promise<any> {
 		const response = await this.wsManager.sendCommand({
 			command: 'getVersion',
 		});
@@ -85,7 +84,7 @@ export class AdditionalOperations {
 		return response.returnData || {};
 	}
 
-	async tradeTransactionStatus(order: number): Promise<IDataObject> {
+	async tradeTransactionStatus(order: number): Promise<any> {
 		const response = await this.wsManager.sendCommand({
 			command: 'tradeTransactionStatus',
 			arguments: {
@@ -98,14 +97,14 @@ export class AdditionalOperations {
 		return response.returnData || {};
 	}
 
-	async getBalance(): Promise<IDataObject> {
+	async getBalance(): Promise<any> {
 		await this.wsManager.sendStreamCommand({
 			command: 'getBalance',
 		});
 		return {};
 	}
 
-	async getCandles(symbol: string): Promise<IDataObject> {
+	async getCandles(symbol: string): Promise<any> {
 		await this.wsManager.sendStreamCommand({
 			command: 'getCandles',
 			symbol,
@@ -113,35 +112,35 @@ export class AdditionalOperations {
 		return {};
 	}
 
-	async getKeepAlive(): Promise<IDataObject> {
+	async getKeepAlive(): Promise<any> {
 		await this.wsManager.sendStreamCommand({
 			command: 'getKeepAlive',
 		});
 		return {};
 	}
 
-	async getNews(): Promise<IDataObject> {
+	async getNews(): Promise<any> {
 		await this.wsManager.sendStreamCommand({
 			command: 'getNews',
 		});
 		return {};
 	}
 
-	async getProfits(): Promise<IDataObject> {
+	async getProfits(): Promise<any> {
 		await this.wsManager.sendStreamCommand({
 			command: 'getProfits',
 		});
 		return {};
 	}
 
-	async getTradeStatus(): Promise<IDataObject> {
+	async getTradeStatus(): Promise<any> {
 		await this.wsManager.sendStreamCommand({
 			command: 'getTradeStatus',
 		});
 		return {};
 	}
 
-	async ping(): Promise<IDataObject> {
+	async ping(): Promise<any> {
 		await this.wsManager.sendStreamCommand({
 			command: 'ping',
 		});

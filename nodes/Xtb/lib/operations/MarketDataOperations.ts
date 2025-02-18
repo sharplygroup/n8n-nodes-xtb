@@ -1,4 +1,3 @@
-import { IExecuteFunctions, IDataObject, NodeOperationError } from 'n8n-workflow';
 import { WebSocketManager } from '../../utils/WebSocketManager';
 import { ISymbolResponse } from '../../interfaces/ISymbolResponse';
 import { ISymbolsResponse } from '../../interfaces/ISymbolsResponse';
@@ -7,24 +6,21 @@ import { ITickPricesResponse } from '../../interfaces/ITickPricesResponse';
 import { ITradingHoursResponse } from '../../interfaces/ITradingHoursResponse';
 
 export class MarketDataOperations {
-	constructor(
-		private readonly wsManager: WebSocketManager,
-		private readonly node: IExecuteFunctions,
-	) {}
+	constructor(private readonly wsManager: WebSocketManager) {}
 
-	async getAllSymbols(): Promise<IDataObject> {
+	async getAllSymbols(): Promise<any> {
 		const response = (await this.wsManager.sendCommand({
 			command: 'getAllSymbols',
 		})) as ISymbolsResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get symbols');
+			throw new Error(response.errorDescr || 'Failed to get symbols');
 		}
 
 		return { symbols: response.returnData };
 	}
 
-	async getSymbol(symbol: string): Promise<IDataObject> {
+	async getSymbol(symbol: string): Promise<any> {
 		const response = (await this.wsManager.sendCommand({
 			command: 'getSymbol',
 			arguments: {
@@ -33,13 +29,13 @@ export class MarketDataOperations {
 		})) as ISymbolResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get symbol');
+			throw new Error(response.errorDescr || 'Failed to get symbol');
 		}
 
 		return { symbolInfo: response.returnData };
 	}
 
-	async getChartData(symbol: string, period: number, start: string): Promise<IDataObject> {
+	async getChartData(symbol: string, period: number, start: string): Promise<any> {
 		const response = (await this.wsManager.sendCommand({
 			command: 'getChartLastRequest',
 			arguments: {
@@ -52,7 +48,7 @@ export class MarketDataOperations {
 		})) as IChartResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get chart data');
+			throw new Error(response.errorDescr || 'Failed to get chart data');
 		}
 
 		return {
@@ -61,7 +57,7 @@ export class MarketDataOperations {
 		};
 	}
 
-	async getTickPrices(symbol: string): Promise<IDataObject> {
+	async getTickPrices(symbol: string): Promise<any> {
 		const response = (await this.wsManager.sendCommand({
 			command: 'getTickPrices',
 			arguments: {
@@ -72,7 +68,7 @@ export class MarketDataOperations {
 		})) as ITickPricesResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get tick prices');
+			throw new Error(response.errorDescr || 'Failed to get tick prices');
 		}
 
 		return {
@@ -83,7 +79,7 @@ export class MarketDataOperations {
 		};
 	}
 
-	async getTradingHours(symbol: string): Promise<IDataObject> {
+	async getTradingHours(symbol: string): Promise<any> {
 		const response = (await this.wsManager.sendCommand({
 			command: 'getTradingHours',
 			arguments: {
@@ -92,7 +88,7 @@ export class MarketDataOperations {
 		})) as ITradingHoursResponse;
 
 		if (!response.status || !response.returnData) {
-			throw new NodeOperationError(this.node, response.errorDescr || 'Failed to get trading hours');
+			throw new Error(response.errorDescr || 'Failed to get trading hours');
 		}
 
 		return {
