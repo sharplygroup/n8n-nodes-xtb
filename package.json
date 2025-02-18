@@ -54,7 +54,8 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "ws": "^8.16.0"
+    "ws": "^8.16.0",
+    "xtb-api-module": "file:../xtb-api-module"
   },
   "peerDependencies": {
     "n8n-workflow": "*"

@@ -1,5 +1,5 @@
 import { IExecuteFunctions, IDataObject, INodeExecutionData } from 'n8n-workflow';
-import { AdditionalOperations } from 'lib/operations/AdditionalOperations';
+import { AdditionalOperations } from 'xtb-api-module';
 
 export class AdditionalResource {
 	constructor(

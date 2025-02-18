@@ -6,14 +6,14 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { WebSocketManager, IXtbCredentials } from './lib/utils/WebSocketManager';
-import { TradingOperations } from './lib/operations/TradingOperations';
-import { MarketDataOperations } from './lib/operations/MarketDataOperations';
-import { AccountOperations } from './lib/operations/AccountOperations';
+import { WebSocketManager, IXtbCredentials } from 'xtb-api-module';
+import { TradingOperations } from 'xtb-api-module';
+import { MarketDataOperations } from 'xtb-api-module';
+import { AccountOperations } from 'xtb-api-module';
 import { TradingResource } from './resources/TradingResource';
 import { MarketDataResource } from './resources/MarketDataResource';
 import { AccountResource } from './resources/AccountResource';
-import { AdditionalOperations } from './lib/operations/AdditionalOperations';
+import { AdditionalOperations } from 'xtb-api-module';
 import { AdditionalResource } from './resources/AdditionalResource';
 import { tradingParameters } from 'config/trading.parameters';
 import { marketDataParameters } from 'config/marketData.parameters';
