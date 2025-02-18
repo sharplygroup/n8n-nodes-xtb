@@ -6,15 +6,15 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { WebSocketManager, IXtbCredentials } from './utils/WebSocketManager';
+import { WebSocketManager, IXtbCredentials } from './lib/utils/WebSocketManager';
 import { TradingOperations } from './lib/operations/TradingOperations';
 import { MarketDataOperations } from './lib/operations/MarketDataOperations';
 import { AccountOperations } from './lib/operations/AccountOperations';
-import { TradingResource } from './lib/resources/TradingResource';
-import { MarketDataResource } from './lib/resources/MarketDataResource';
-import { AccountResource } from './lib/resources/AccountResource';
+import { TradingResource } from './resources/TradingResource';
+import { MarketDataResource } from './resources/MarketDataResource';
+import { AccountResource } from './resources/AccountResource';
 import { AdditionalOperations } from './lib/operations/AdditionalOperations';
-import { AdditionalResource } from './lib/resources/AdditionalResource';
+import { AdditionalResource } from './resources/AdditionalResource';
 import { tradingParameters } from 'config/trading.parameters';
 import { marketDataParameters } from 'config/marketData.parameters';
 import { accountParameters } from 'config/account.parameters';

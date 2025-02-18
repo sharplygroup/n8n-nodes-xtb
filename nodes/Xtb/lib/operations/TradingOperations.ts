@@ -1,7 +1,7 @@
-import { WebSocketManager } from '../../utils/WebSocketManager';
-import { ITradeTransactionResponse } from '../../interfaces/ITradeTransactionResponse';
-import { ITradeStatusResponse } from '../../interfaces/ITradeStatusResponse';
-import { ITradesResponse } from '../../interfaces/ITradesResponse';
+import { WebSocketManager } from '../utils/WebSocketManager';
+import { ITradeTransactionResponse } from '../interfaces/ITradeTransactionResponse';
+import { ITradeStatusResponse } from '../interfaces/ITradeStatusResponse';
+import { ITradesResponse } from '../interfaces/ITradesResponse';
 
 export class TradingOperations {
 	constructor(private readonly wsManager: WebSocketManager) {}

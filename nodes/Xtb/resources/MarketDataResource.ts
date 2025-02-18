@@ -4,7 +4,7 @@ import {
 	INodeExecutionData,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { MarketDataOperations } from '../operations/MarketDataOperations';
+import { MarketDataOperations } from 'lib/operations/MarketDataOperations';
 
 export class MarketDataResource {
 	constructor(

@@ -1,9 +1,9 @@
-import { WebSocketManager } from '../../utils/WebSocketManager';
-import { IAccountDataResponse } from '../../interfaces/IAccountDataResponse';
-import { IMarginLevelResponse } from '../../interfaces/IMarginLevelResponse';
-import { IMarginTradeResponse } from '../../interfaces/IMarginTradeResponse';
-import { ICommissionResponse } from '../../interfaces/ICommissionResponse';
-import { IProfitCalculationResponse } from '../../interfaces/IProfitCalculationResponse';
+import { WebSocketManager } from '../utils/WebSocketManager';
+import { IAccountDataResponse } from '../interfaces/IAccountDataResponse';
+import { IMarginLevelResponse } from '../interfaces/IMarginLevelResponse';
+import { IMarginTradeResponse } from '../interfaces/IMarginTradeResponse';
+import { ICommissionResponse } from '../interfaces/ICommissionResponse';
+import { IProfitCalculationResponse } from '../interfaces/IProfitCalculationResponse';
 
 export class AccountOperations {
 	constructor(private readonly wsManager: WebSocketManager) {}

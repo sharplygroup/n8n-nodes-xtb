@@ -56,7 +56,6 @@ export class WebSocketManager {
 			const loginResponse = await this.login();
 			if (!loginResponse.status) {
 				throw new XtbLoginError(
-					this,
 					loginResponse.errorDescr || 'Login failed',
 					loginResponse.errorCode,
 				);
@@ -82,7 +81,7 @@ export class WebSocketManager {
 	private waitForConnection(socket: WebSocket): Promise<void> {
 		return new Promise((resolve, reject) => {
 			const timeout = setTimeout(() => {
-				reject(new XtbConnectionError(this, 'Connection timeout'));
+				reject(new XtbConnectionError('Connection timeout'));
 			}, 30000);
 
 			socket.once('open', () => {
@@ -92,7 +91,7 @@ export class WebSocketManager {
 
 			socket.once('error', (error) => {
 				clearTimeout(timeout);
-				reject(new XtbConnectionError(this, error.message));
+				reject(new XtbConnectionError(error.message));
 			});
 		});
 	}
