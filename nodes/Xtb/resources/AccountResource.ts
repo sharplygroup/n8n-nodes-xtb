@@ -1,10 +1,15 @@
 import {
-	IExecuteFunctions,
 	IDataObject,
+	IExecuteFunctions,
 	INodeExecutionData,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { AccountOperations } from 'xtb-api-module';
+import {
+	AccountOperations,
+	IAccountDataResponse,
+	IMarginLevelResponse,
+	IWebSocketResponse,
+} from '@sharplygroup/xtb-api-js';
 
 export class AccountResource {
 	constructor(
@@ -13,17 +18,16 @@ export class AccountResource {
 	) {}
 
 	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
+		const result = await this.executeMethod(operation);
+		return result as unknown as IDataObject;
+	}
+
+	private async executeMethod(operation: string): Promise<IWebSocketResponse> {
 		switch (operation) {
-			case 'getAccountData':
-				return this.getAccountData();
+			case 'getCurrentUserData':
+				return this.getCurrentUserData();
 			case 'getMarginLevel':
 				return this.getMarginLevel();
-			case 'getMarginTrade':
-				return this.getMarginTrade(items, i);
-			case 'getCommission':
-				return this.getCommission(items, i);
-			case 'calculateProfit':
-				return this.calculateProfit(items, i);
 			default:
 				throw new NodeOperationError(
 					this.executeFunctions.getNode(),
@@ -32,32 +36,11 @@ export class AccountResource {
 		}
 	}
 
-	private async getAccountData(): Promise<IDataObject> {
-		return this.accountOperations.getAccountData();
+	private async getCurrentUserData(): Promise<IAccountDataResponse> {
+		return this.accountOperations.getCurrentUserData();
 	}
 
-	private async getMarginLevel(): Promise<IDataObject> {
+	private async getMarginLevel(): Promise<IMarginLevelResponse> {
 		return this.accountOperations.getMarginLevel();
-	}
-
-	private async getMarginTrade(items: INodeExecutionData[], i: number): Promise<IDataObject> {
-		const symbol = this.executeFunctions.getNodeParameter('symbol', i) as string;
-		const volume = this.executeFunctions.getNodeParameter('volume', i) as number;
-		return this.accountOperations.getMarginTrade(symbol, volume);
-	}
-
-	private async getCommission(items: INodeExecutionData[], i: number): Promise<IDataObject> {
-		const symbol = this.executeFunctions.getNodeParameter('symbol', i) as string;
-		const volume = this.executeFunctions.getNodeParameter('volume', i) as number;
-		return this.accountOperations.getCommission(symbol, volume);
-	}
-
-	private async calculateProfit(items: INodeExecutionData[], i: number): Promise<IDataObject> {
-		const symbol = this.executeFunctions.getNodeParameter('symbol', i) as string;
-		const volume = this.executeFunctions.getNodeParameter('volume', i) as number;
-		const openPrice = this.executeFunctions.getNodeParameter('openPrice', i) as number;
-		const closePrice = this.executeFunctions.getNodeParameter('closePrice', i) as number;
-		const cmd = this.executeFunctions.getNodeParameter('cmd', i) as number;
-		return this.accountOperations.calculateProfit(symbol, volume, openPrice, closePrice, cmd);
 	}
 }

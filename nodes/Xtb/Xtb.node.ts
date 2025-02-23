@@ -6,19 +6,10 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { WebSocketManager, IXtbCredentials } from 'xtb-api-module';
-import { TradingOperations } from 'xtb-api-module';
-import { MarketDataOperations } from 'xtb-api-module';
-import { AccountOperations } from 'xtb-api-module';
-import { TradingResource } from './resources/TradingResource';
-import { MarketDataResource } from './resources/MarketDataResource';
+import { WebSocketManager, IXtbCredentials } from '@sharplygroup/xtb-api-js';
+import { AccountOperations } from '@sharplygroup/xtb-api-js';
 import { AccountResource } from './resources/AccountResource';
-import { AdditionalOperations } from 'xtb-api-module';
-import { AdditionalResource } from './resources/AdditionalResource';
-import { tradingParameters } from 'config/trading.parameters';
-import { marketDataParameters } from 'config/marketData.parameters';
 import { accountParameters } from 'config/account.parameters';
-import { additionalParameters } from 'config/additional.parameters';
 import { INodeProperties } from 'n8n-workflow';
 
 export class Xtb implements INodeType {
@@ -29,8 +20,7 @@ export class Xtb implements INodeType {
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description:
-			'Interact with XTB Trading API. Supports Trading, Market Data, Account and Additional resources.',
+		description: 'Interact with XTB Trading API. Supports Account resources.',
 		defaults: {
 			name: 'XTB',
 		},
@@ -50,28 +40,13 @@ export class Xtb implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
-						name: 'Trading',
-						value: 'trading',
-					},
-					{
-						name: 'Market Data',
-						value: 'marketData',
-					},
-					{
 						name: 'Account',
 						value: 'account',
 					},
-					{
-						name: 'Additional',
-						value: 'additional',
-					},
 				],
-				default: 'trading',
+				default: 'account',
 			},
-			...tradingParameters,
-			...marketDataParameters,
 			...accountParameters,
-			...additionalParameters,
 		] as INodeProperties[],
 	};
 
@@ -87,15 +62,10 @@ export class Xtb implements INodeType {
 		// Initialize WebSocket manager
 		const wsManager = new WebSocketManager(credentials);
 
-		const tradingOperations = new TradingOperations(wsManager);
-		const marketDataOperations = new MarketDataOperations(wsManager);
 		const accountOperations = new AccountOperations(wsManager);
-		const additionalOperations = new AdditionalOperations(wsManager);
 
-		const tradingResource = new TradingResource(tradingOperations, this);
-		const marketDataResource = new MarketDataResource(marketDataOperations, this);
 		const accountResource = new AccountResource(accountOperations, this);
-		const additionalResource = new AdditionalResource(additionalOperations, this);
+
 		try {
 			// Connect to XTB API
 			await wsManager.connect();
@@ -105,14 +75,8 @@ export class Xtb implements INodeType {
 				try {
 					let response: IDataObject = {};
 
-					if (resource === 'trading') {
-						response = await tradingResource.execute(items, i, operation);
-					} else if (resource === 'marketData') {
-						response = await marketDataResource.execute(items, i, operation);
-					} else if (resource === 'account') {
+					if (resource === 'account') {
 						response = await accountResource.execute(items, i, operation);
-					} else if (resource === 'additional') {
-						response = await additionalResource.execute(items, i, operation);
 					} else {
 						throw new NodeOperationError(this.getNode(), `Unknown resource: ${resource}`);
 					}
