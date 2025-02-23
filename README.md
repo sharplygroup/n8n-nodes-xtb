@@ -1,4 +1,4 @@
-# n8n-nodes-xtb
+# @sharplygroup/n8n-nodes-xtb
 
 This is an n8n community node. It lets you use XTB in your n8n workflows.
 
