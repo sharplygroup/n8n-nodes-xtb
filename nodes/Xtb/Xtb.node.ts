@@ -30,6 +30,14 @@ import { TradeResource } from './resources/TradeResource';
 import { TradingResource } from './resources/TradingResource';
 import { accountParameters } from 'config/account.parameters';
 import { INodeProperties } from 'n8n-workflow';
+import { calculationParameters } from 'config/calculation.parameters';
+import { dmaParameters } from 'config/dma.parameters';
+import { marketDataParameters } from 'config/marketData.parameters';
+import { newsParameters } from 'config/news.parameters';
+import { serverParameters } from 'config/server.parameters';
+import { symbolParameters } from 'config/symbol.parameters';
+import { tradeParameters } from 'config/trade.parameters';
+import { tradingParameters } from 'config/trading.parameters';
 
 export class Xtb implements INodeType {
 	description: INodeTypeDescription = {
@@ -98,6 +106,14 @@ export class Xtb implements INodeType {
 				default: 'account',
 			},
 			...accountParameters,
+			...calculationParameters,
+			...dmaParameters,
+			...marketDataParameters,
+			...newsParameters,
+			...serverParameters,
+			...symbolParameters,
+			...tradeParameters,
+			...tradingParameters,
 		] as INodeProperties[],
 	};
 
