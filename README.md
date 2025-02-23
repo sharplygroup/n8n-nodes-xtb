@@ -1,16 +1,50 @@
-## Using this starter
+# n8n-nodes-xtb
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+This is an n8n community node. It lets you use XTB in your n8n workflows.
 
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+XTB is a global online trading platform that offers access to a wide range of financial markets, including forex, indices, commodities, stocks, and ETFs.
 
-## More information
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+[Installation](#installation)  
+[Operations](#operations)  
+[Credentials](#credentials)
+[Compatibility](#compatibility)  
+[Resources](#resources)
 
-## License
+## Installation
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
+
+## Operations
+
+The following operations are supported by this node:
+
+*   **Account:** `getCurrentUserData`, `getMarginLevel`
+*   **Calculation:** `getCommissionDef`, `getMarginTrade`, `getProfitCalculation`
+*   **Dma:** `getStepRules`
+*   **MarketData:** `getCalendar`, `getChartLastRequest`, `getChartRangeRequest`, `getTickPrices`, `getTradingHours`
+*   **News:** `getNews`
+*   **Server:** `getServerTime`, `getVersion`, `ping`
+*   **Symbol:** `getAllSymbols`, `getSymbol`
+*   **Trade:** `getTrades`, `getTradeRecords`, `getTradesHistory`, `getTradeStatus`
+*   **Trading:** `tradeTransaction`, `tradeTransactionStatus`
+
+## Credentials
+
+To authenticate with the XTB API, you need to provide the following credentials:
+
+*   **User ID:** Your XTB user ID.
+*   **Password:** Your XTB password.
+*   **Environment:** Whether to use the demo or real trading environment. You can select the environment in the credentials settings.
+
+Before using the XTB node, you need to have an XTB account. You can sign up for a demo account on the [XTB website](https://www.xtb.com/).
+
+## Compatibility
+
+This node is compatible with the latest version of n8n. There are no known incompatibility issues.
+
+## Resources
+
+* [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+* [XTB API Documentation](https://developers.xstore.pro/documentation/)
