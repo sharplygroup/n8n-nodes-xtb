@@ -19,25 +19,29 @@ import {
 	TradingOperations,
 } from '@sharplygroup/xtb-api-js';
 import { AccountOperations } from '@sharplygroup/xtb-api-js';
-import { AccountResource } from './resources/AccountResource';
-import { CalculationResource } from './resources/CalculationResource';
-import { DmaResource } from './resources/DmaResource';
-import { MarketDataResource } from './resources/MarketDataResource';
-import { NewsResource } from './resources/NewsResource';
-import { ServerResource } from './resources/ServerResource';
-import { SymbolResource } from './resources/SymbolResource';
-import { TradeResource } from './resources/TradeResource';
-import { TradingResource } from './resources/TradingResource';
-import { accountParameters } from 'config/account.parameters';
+import {
+	AccountResource,
+	CalculationResource,
+	DmaResource,
+	MarketDataResource,
+	NewsResource,
+	ServerResource,
+	SymbolResource,
+	TradeResource,
+	TradingResource
+} from './resources';
+import {
+	accountParameters,
+	calculationParameters,
+	dmaParameters,
+	marketDataParameters,
+	newsParameters,
+	serverParameters,
+	symbolParameters,
+	tradeParameters,
+	tradingParameters,
+} from './config';
 import { INodeProperties } from 'n8n-workflow';
-import { calculationParameters } from 'config/calculation.parameters';
-import { dmaParameters } from 'config/dma.parameters';
-import { marketDataParameters } from 'config/marketData.parameters';
-import { newsParameters } from 'config/news.parameters';
-import { serverParameters } from 'config/server.parameters';
-import { symbolParameters } from 'config/symbol.parameters';
-import { tradeParameters } from 'config/trade.parameters';
-import { tradingParameters } from 'config/trading.parameters';
 
 export class Xtb implements INodeType {
 	description: INodeTypeDescription = {
