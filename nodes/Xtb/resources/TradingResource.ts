@@ -17,16 +17,20 @@ export class TradingResource {
 	) {}
 
 	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
-		const result = await this.executeMethod(operation);
+		const result = await this.executeMethod(operation, i);
 		return result as unknown as IDataObject;
 	}
 
-	private async executeMethod(operation: string): Promise<IWebSocketResponse> {
+	private async executeMethod(operation: string, i: number): Promise<IWebSocketResponse> {
 		switch (operation) {
-			case 'tradeTransaction':
-				return this.tradeTransaction();
-			case 'tradeTransactionStatus':
-				return this.tradeTransactionStatus();
+			case 'tradeTransaction': {
+				const tradeTransInfo = this.executeFunctions.getNodeParameter('tradeTransInfo', i) as any;
+				return this.tradeTransaction(tradeTransInfo);
+			}
+			case 'tradeTransactionStatus': {
+				const order = this.executeFunctions.getNodeParameter('order', i) as number;
+				return this.tradeTransactionStatus(order);
+			}
 			default:
 				throw new NodeOperationError(
 					this.executeFunctions.getNode(),

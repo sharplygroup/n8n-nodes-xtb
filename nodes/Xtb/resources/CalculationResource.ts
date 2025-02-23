@@ -29,14 +29,24 @@ export class CalculationResource {
 		operation: string,
 	): Promise<IWebSocketResponse> {
 		switch (operation) {
-			case 'getCommissionDef':
-				const symbol = this.executeFunctions.getNodeParameter('symbol', i);
-				const volume = this.executeFunctions.getNodeParameter('volume', i);
+			case 'getCommissionDef': {
+				const symbol = this.executeFunctions.getNodeParameter('symbol', i) as string;
+				const volume = this.executeFunctions.getNodeParameter('volume', i) as number;
 				return this.getCommissionDef(symbol, volume);
-			case 'getMarginTrade':
-				return this.getMarginTrade();
-			case 'getProfitCalculation':
-				return this.getProfitCalculation();
+			}
+			case 'getMarginTrade': {
+				const symbol = this.executeFunctions.getNodeParameter('symbol', i) as string;
+				const volume = this.executeFunctions.getNodeParameter('volume', i) as number;
+				return this.getMarginTrade(symbol, volume);
+			}
+			case 'getProfitCalculation': {
+				const closePrice = this.executeFunctions.getNodeParameter('closePrice', i) as number;
+				const cmd = this.executeFunctions.getNodeParameter('cmd', i) as number;
+				const openPrice = this.executeFunctions.getNodeParameter('openPrice', i) as number;
+				const symbol = this.executeFunctions.getNodeParameter('symbol', i) as string;
+				const volume = this.executeFunctions.getNodeParameter('volume', i) as number;
+				return this.getProfitCalculation(closePrice, cmd, openPrice, symbol, volume);
+			}
 			default:
 				throw new NodeOperationError(
 					this.executeFunctions.getNode(),

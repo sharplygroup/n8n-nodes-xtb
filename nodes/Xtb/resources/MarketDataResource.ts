@@ -19,22 +19,33 @@ export class MarketDataResource {
 	) {}
 
 	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
-		const result = await this.executeMethod(operation);
+		const result = await this.executeMethod(operation, i);
 		return result as unknown as IDataObject;
 	}
 
-	private async executeMethod(operation: string): Promise<IWebSocketResponse> {
+	private async executeMethod(operation: string, i: number): Promise<IWebSocketResponse> {
 		switch (operation) {
-			case 'getCalendar':
+			case 'getCalendar': {
 				return this.getCalendar();
-			case 'getChartLastRequest':
-				return this.getChartLastRequest();
-			case 'getChartRangeRequest':
-				return this.getChartRangeRequest();
-			case 'getTickPrices':
-				return this.getTickPrices();
-			case 'getTradingHours':
-				return this.getTradingHours();
+			}
+			case 'getChartLastRequest': {
+				const info = this.executeFunctions.getNodeParameter('info', i) as any;
+				return this.getChartLastRequest(info);
+			}
+			case 'getChartRangeRequest': {
+				const info = this.executeFunctions.getNodeParameter('info', i) as any;
+				return this.getChartRangeRequest(info);
+			}
+			case 'getTickPrices': {
+				const level = this.executeFunctions.getNodeParameter('level', i) as number;
+				const symbols = this.executeFunctions.getNodeParameter('symbols', i) as string[];
+				const timestamp = this.executeFunctions.getNodeParameter('timestamp', i) as number;
+				return this.getTickPrices(level, symbols, timestamp);
+			}
+			case 'getTradingHours': {
+				const symbols = this.executeFunctions.getNodeParameter('symbols', i) as string[];
+				return this.getTradingHours(symbols);
+			}
 			default:
 				throw new NodeOperationError(
 					this.executeFunctions.getNode(),

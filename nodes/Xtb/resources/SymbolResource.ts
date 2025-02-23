@@ -18,16 +18,19 @@ export class SymbolResource {
 	) {}
 
 	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
-		const result = await this.executeMethod(operation);
+		const result = await this.executeMethod(operation, i);
 		return result as unknown as IDataObject;
 	}
 
-	private async executeMethod(operation: string): Promise<IWebSocketResponse> {
+	private async executeMethod(operation: string, i: number): Promise<IWebSocketResponse> {
 		switch (operation) {
-			case 'getAllSymbols':
+			case 'getAllSymbols': {
 				return this.getAllSymbols();
-			case 'getSymbol':
-				return this.getSymbol();
+			}
+			case 'getSymbol': {
+				const symbol = this.executeFunctions.getNodeParameter('symbol', i) as string;
+				return this.getSymbol(symbol);
+			}
 			default:
 				throw new NodeOperationError(
 					this.executeFunctions.getNode(),

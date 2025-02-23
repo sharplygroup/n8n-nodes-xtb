@@ -13,20 +13,29 @@ export class TradeResource {
 	) {}
 
 	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
-		const result = await this.executeMethod(operation);
+		const result = await this.executeMethod(operation, i);
 		return result as unknown as IDataObject;
 	}
 
-	private async executeMethod(operation: string): Promise<IWebSocketResponse> {
+	private async executeMethod(operation: string, i: number): Promise<IWebSocketResponse> {
 		switch (operation) {
-			case 'getTrades':
-				return this.getTrades();
-			case 'getTradeRecords':
-				return this.getTradeRecords();
-			case 'getTradesHistory':
-				return this.getTradesHistory();
-			case 'getTradeStatus':
-				return this.getTradeStatus();
+			case 'getTrades': {
+				const openedOnly = this.executeFunctions.getNodeParameter('openedOnly', i) as boolean;
+				return this.getTrades(openedOnly);
+			}
+			case 'getTradeRecords': {
+				const orders = this.executeFunctions.getNodeParameter('orders', i) as number[];
+				return this.getTradeRecords(orders);
+			}
+			case 'getTradesHistory': {
+				const end = this.executeFunctions.getNodeParameter('end', i) as number;
+				const start = this.executeFunctions.getNodeParameter('start', i) as number;
+				return this.getTradesHistory(end, start);
+			}
+			case 'getTradeStatus': {
+				const order = this.executeFunctions.getNodeParameter('order', i) as number;
+				return this.getTradeStatus(order);
+			}
 			default:
 				throw new NodeOperationError(
 					this.executeFunctions.getNode(),
