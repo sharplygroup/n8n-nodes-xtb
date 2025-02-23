@@ -7,8 +7,9 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 import { WebSocketManager, IXtbCredentials } from '@sharplygroup/xtb-api-js';
-import { AccountOperations } from '@sharplygroup/xtb-api-js';
+import { AccountOperations, AdditionalOperations } from '@sharplygroup/xtb-api-js';
 import { AccountResource } from './resources/AccountResource';
+import { AdditionalResource } from './resources/AdditionalResource';
 import { accountParameters } from 'config/account.parameters';
 import { INodeProperties } from 'n8n-workflow';
 
@@ -43,6 +44,10 @@ export class Xtb implements INodeType {
 						name: 'Account',
 						value: 'account',
 					},
+					{
+						name: 'Additional',
+						value: 'additional',
+					},
 				],
 				default: 'account',
 			},
@@ -63,8 +68,10 @@ export class Xtb implements INodeType {
 		const wsManager = new WebSocketManager(credentials);
 
 		const accountOperations = new AccountOperations(wsManager);
+		const additionalOperations = new AdditionalOperations(wsManager);
 
 		const accountResource = new AccountResource(accountOperations, this);
+		const additionalResource = new AdditionalResource(additionalOperations, this);
 
 		try {
 			// Connect to XTB API
@@ -77,7 +84,10 @@ export class Xtb implements INodeType {
 
 					if (resource === 'account') {
 						response = await accountResource.execute(items, i, operation);
-					} else {
+					} else if (resource === 'additional') {
+						response = await additionalResource.execute(items, i, operation);
+					}
+					 else {
 						throw new NodeOperationError(this.getNode(), `Unknown resource: ${resource}`);
 					}
 

@@ -54,7 +54,7 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@sharplygroup/xtb-api-js": "^0.1.0",
+    "@sharplygroup/xtb-api-js": "^0.1.2",
     "ws": "^8.16.0"
   },
   "peerDependencies": {
