@@ -29,7 +29,7 @@
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
     "prepublishOnly": "pnpm build && pnpm lint -c .eslintrc.prepublish.js nodes credentials package.json",
-    "verify": "pnpm format && pnpm lint --fix && pnpm build"
+    "verify": "pnpm format && pnpm lint && pnpm build"
   },
   "files": [
     "dist"

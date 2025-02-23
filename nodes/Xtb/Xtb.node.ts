@@ -6,7 +6,7 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { WebSocketManager, IXtbCredentials } from '@sharplygroup/xtb-api-js';
+import { WebSocketManager, IXtbCredentials, CalculationOperations, DmaOperations, MarketDataOperations, NewsOperations, ServerOperations, SymbolOperations, TradeOperations, TradingOperations } from '@sharplygroup/xtb-api-js';
 import { AccountOperations } from '@sharplygroup/xtb-api-js';
 import { AccountResource } from './resources/AccountResource';
 import { CalculationResource } from './resources/CalculationResource';
