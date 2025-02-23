@@ -7,9 +7,16 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 import { WebSocketManager, IXtbCredentials } from '@sharplygroup/xtb-api-js';
-import { AccountOperations, AdditionalOperations } from '@sharplygroup/xtb-api-js';
+import { AccountOperations } from '@sharplygroup/xtb-api-js';
 import { AccountResource } from './resources/AccountResource';
-import { AdditionalResource } from './resources/AdditionalResource';
+import { CalculationResource } from './resources/CalculationResource';
+import { DmaResource } from './resources/DmaResource';
+import { MarketDataResource } from './resources/MarketDataResource';
+import { NewsResource } from './resources/NewsResource';
+import { ServerResource } from './resources/ServerResource';
+import { SymbolResource } from './resources/SymbolResource';
+import { TradeResource } from './resources/TradeResource';
+import { TradingResource } from './resources/TradingResource';
 import { accountParameters } from 'config/account.parameters';
 import { INodeProperties } from 'n8n-workflow';
 
@@ -45,8 +52,36 @@ export class Xtb implements INodeType {
 						value: 'account',
 					},
 					{
-						name: 'Additional',
-						value: 'additional',
+						name: 'Calculation',
+						value: 'calculation',
+					},
+					{
+						name: 'Dma',
+						value: 'dma',
+					},
+					{
+						name: 'MarketData',
+						value: 'marketData',
+					},
+					{
+						name: 'News',
+						value: 'news',
+					},
+					{
+						name: 'Server',
+						value: 'server',
+					},
+					{
+						name: 'Symbol',
+						value: 'symbol',
+					},
+					{
+						name: 'Trade',
+						value: 'trade',
+					},
+					{
+						name: 'Trading',
+						value: 'trading',
 					},
 				],
 				default: 'account',
@@ -68,10 +103,24 @@ export class Xtb implements INodeType {
 		const wsManager = new WebSocketManager(credentials);
 
 		const accountOperations = new AccountOperations(wsManager);
-		const additionalOperations = new AdditionalOperations(wsManager);
+		const calculationOperations = new CalculationOperations(wsManager);
+		const dmaOperations = new DmaOperations(wsManager);
+		const marketDataOperations = new MarketDataOperations(wsManager);
+		const newsOperations = new NewsOperations(wsManager);
+		const serverOperations = new ServerOperations(wsManager);
+		const symbolOperations = new SymbolOperations(wsManager);
+		const tradeOperations = new TradeOperations(wsManager);
+		const tradingOperations = new TradingOperations(wsManager);
 
 		const accountResource = new AccountResource(accountOperations, this);
-		const additionalResource = new AdditionalResource(additionalOperations, this);
+		const calculationResource = new CalculationResource(calculationOperations, this);
+		const dmaResource = new DmaResource(dmaOperations, this);
+		const marketDataResource = new MarketDataResource(marketDataOperations, this);
+		const newsResource = new NewsResource(newsOperations, this);
+		const serverResource = new ServerResource(serverOperations, this);
+		const symbolResource = new SymbolResource(symbolOperations, this);
+		const tradeResource = new TradeResource(tradeOperations, this);
+		const tradingResource = new TradingResource(tradingOperations, this);
 
 		try {
 			// Connect to XTB API
@@ -84,10 +133,23 @@ export class Xtb implements INodeType {
 
 					if (resource === 'account') {
 						response = await accountResource.execute(items, i, operation);
-					} else if (resource === 'additional') {
-						response = await additionalResource.execute(items, i, operation);
-					}
-					 else {
+					} else if (resource === 'calculation') {
+						response = await calculationResource.execute(items, i, operation);
+					} else if (resource === 'dma') {
+						response = await dmaResource.execute(items, i, operation);
+					} else if (resource === 'marketData') {
+						response = await marketDataResource.execute(items, i, operation);
+					} else if (resource === 'news') {
+						response = await newsResource.execute(items, i, operation);
+					} else if (resource === 'server') {
+						response = await serverResource.execute(items, i, operation);
+					} else if (resource === 'symbol') {
+						response = await symbolResource.execute(items, i, operation);
+					} else if (resource === 'trade') {
+						response = await tradeResource.execute(items, i, operation);
+					} else if (resource === 'trading') {
+						response = await tradingResource.execute(items, i, operation);
+					} else {
 						throw new NodeOperationError(this.getNode(), `Unknown resource: ${resource}`);
 					}
 
