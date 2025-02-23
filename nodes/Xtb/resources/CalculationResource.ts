@@ -23,7 +23,11 @@ export class CalculationResource {
 		return result as unknown as IDataObject;
 	}
 
-	private async executeMethod(items: INodeExecutionData[], i: number, operation: string): Promise<IWebSocketResponse> {
+	private async executeMethod(
+		items: INodeExecutionData[],
+		i: number,
+		operation: string,
+	): Promise<IWebSocketResponse> {
 		switch (operation) {
 			case 'getCommissionDef':
 				const symbol = this.executeFunctions.getNodeParameter('symbol', i);
@@ -49,7 +53,19 @@ export class CalculationResource {
 		return this.calculationOperations.getMarginTrade(symbol, volume);
 	}
 
-	private async getProfitCalculation(closePrice: number, cmd: number, openPrice: number, symbol: string, volume: number): Promise<IProfitCalculationResponse> {
-		return this.calculationOperations.getProfitCalculation(closePrice, cmd, openPrice, symbol, volume);
+	private async getProfitCalculation(
+		closePrice: number,
+		cmd: number,
+		openPrice: number,
+		symbol: string,
+		volume: number,
+	): Promise<IProfitCalculationResponse> {
+		return this.calculationOperations.getProfitCalculation(
+			closePrice,
+			cmd,
+			openPrice,
+			symbol,
+			volume,
+		);
 	}
 }

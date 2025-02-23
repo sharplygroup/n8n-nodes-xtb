@@ -4,10 +4,7 @@ import {
 	INodeExecutionData,
 	NodeOperationError,
 } from 'n8n-workflow';
-import {
-	NewsOperations,
-	IWebSocketResponse,
-} from '@sharplygroup/xtb-api-js';
+import { NewsOperations, IWebSocketResponse } from '@sharplygroup/xtb-api-js';
 
 export class NewsResource {
 	constructor(

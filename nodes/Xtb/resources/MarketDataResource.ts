@@ -56,7 +56,11 @@ export class MarketDataResource {
 		return this.marketDataOperations.getChartRangeRequest(info);
 	}
 
-	private async getTickPrices(level: number, symbols: string[], timestamp: number): Promise<ITickPricesResponse> {
+	private async getTickPrices(
+		level: number,
+		symbols: string[],
+		timestamp: number,
+	): Promise<ITickPricesResponse> {
 		return this.marketDataOperations.getTickPrices(level, symbols, timestamp);
 	}
 

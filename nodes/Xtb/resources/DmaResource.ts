@@ -4,10 +4,7 @@ import {
 	INodeExecutionData,
 	NodeOperationError,
 } from 'n8n-workflow';
-import {
-	DmaOperations,
-	IWebSocketResponse,
-} from '@sharplygroup/xtb-api-js';
+import { DmaOperations, IWebSocketResponse } from '@sharplygroup/xtb-api-js';
 
 export class DmaResource {
 	constructor(

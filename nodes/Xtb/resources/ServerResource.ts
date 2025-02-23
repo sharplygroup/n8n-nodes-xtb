@@ -4,10 +4,7 @@ import {
 	INodeExecutionData,
 	NodeOperationError,
 } from 'n8n-workflow';
-import {
-	ServerOperations,
-	IWebSocketResponse,
-} from '@sharplygroup/xtb-api-js';
+import { ServerOperations, IWebSocketResponse } from '@sharplygroup/xtb-api-js';
 
 export class ServerResource {
 	constructor(

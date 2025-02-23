@@ -4,11 +4,7 @@ import {
 	INodeExecutionData,
 	NodeOperationError,
 } from 'n8n-workflow';
-import {
-	TradeOperations,
-	ITradesResponse,
-	IWebSocketResponse,
-} from '@sharplygroup/xtb-api-js';
+import { TradeOperations, ITradesResponse, IWebSocketResponse } from '@sharplygroup/xtb-api-js';
 
 export class TradeResource {
 	constructor(
