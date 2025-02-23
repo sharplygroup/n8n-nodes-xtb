@@ -39,23 +39,19 @@ export class TradeResource {
 		}
 	}
 
-	private async getTrades(): Promise<ITradesResponse> {
-		// TODO: Implement parameters
-		return this.tradeOperations.getTrades(false);
+	private async getTrades(openedOnly: boolean): Promise<ITradesResponse> {
+		return this.tradeOperations.getTrades(openedOnly);
 	}
 
-	private async getTradeRecords(): Promise<ITradesResponse> {
-		// TODO: Implement parameters
-		return this.tradeOperations.getTradeRecords([]);
+	private async getTradeRecords(orders: number[]): Promise<ITradesResponse> {
+		return this.tradeOperations.getTradeRecords(orders);
 	}
 
-	private async getTradesHistory(): Promise<ITradesResponse> {
-		// TODO: Implement parameters
-		return this.tradeOperations.getTradesHistory(0, 0);
+	private async getTradesHistory(end: number, start: number): Promise<ITradesResponse> {
+		return this.tradeOperations.getTradesHistory(end, start);
 	}
 
-	private async getTradeStatus(): Promise<any> {
-		// TODO: Implement parameters
-		return this.tradeOperations.getTradeStatus(0);
+	private async getTradeStatus(order: number): Promise<any> {
+		return this.tradeOperations.getTradeStatus(order);
 	}
 }

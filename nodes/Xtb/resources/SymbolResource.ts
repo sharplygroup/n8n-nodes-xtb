@@ -40,8 +40,7 @@ export class SymbolResource {
 		return this.symbolOperations.getAllSymbols();
 	}
 
-	private async getSymbol(): Promise<ISymbolResponse> {
-		// TODO: Implement parameters
-		return this.symbolOperations.getSymbol('');
+	private async getSymbol(symbol: string): Promise<ISymbolResponse> {
+		return this.symbolOperations.getSymbol(symbol);
 	}
 }

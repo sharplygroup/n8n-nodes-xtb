@@ -32,8 +32,7 @@ export class NewsResource {
 		}
 	}
 
-	private async getNews(): Promise<any> {
-		// TODO: Implement parameters
-		return this.newsOperations.getNews(0, 0);
+	private async getNews(end: number, start: number): Promise<any> {
+		return this.newsOperations.getNews(end, start);
 	}
 }

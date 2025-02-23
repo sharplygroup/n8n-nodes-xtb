@@ -48,23 +48,19 @@ export class MarketDataResource {
 		return this.marketDataOperations.getCalendar();
 	}
 
-	private async getChartLastRequest(): Promise<IChartResponse> {
-		// TODO: Implement parameters
-		return this.marketDataOperations.getChartLastRequest({});
+	private async getChartLastRequest(info: any): Promise<IChartResponse> {
+		return this.marketDataOperations.getChartLastRequest(info);
 	}
 
-	private async getChartRangeRequest(): Promise<IChartResponse> {
-		// TODO: Implement parameters
-		return this.marketDataOperations.getChartRangeRequest({});
+	private async getChartRangeRequest(info: any): Promise<IChartResponse> {
+		return this.marketDataOperations.getChartRangeRequest(info);
 	}
 
-	private async getTickPrices(): Promise<ITickPricesResponse> {
-		// TODO: Implement parameters
-		return this.marketDataOperations.getTickPrices(0, [], 0);
+	private async getTickPrices(level: number, symbols: string[], timestamp: number): Promise<ITickPricesResponse> {
+		return this.marketDataOperations.getTickPrices(level, symbols, timestamp);
 	}
 
-	private async getTradingHours(): Promise<ITradingHoursResponse> {
-		// TODO: Implement parameters
-		return this.marketDataOperations.getTradingHours([]);
+	private async getTradingHours(symbols: string[]): Promise<ITradingHoursResponse> {
+		return this.marketDataOperations.getTradingHours(symbols);
 	}
 }

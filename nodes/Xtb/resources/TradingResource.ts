@@ -35,13 +35,11 @@ export class TradingResource {
 		}
 	}
 
-	private async tradeTransaction(): Promise<ITradeTransactionResponse> {
-		// TODO: Implement parameters
-		return this.tradingOperations.tradeTransaction({});
+	private async tradeTransaction(tradeTransInfo: any): Promise<ITradeTransactionResponse> {
+		return this.tradingOperations.tradeTransaction(tradeTransInfo);
 	}
 
-	private async tradeTransactionStatus(): Promise<any> {
-		// TODO: Implement parameters
-		return this.tradingOperations.tradeTransactionStatus(0);
+	private async tradeTransactionStatus(order: number): Promise<any> {
+		return this.tradingOperations.tradeTransactionStatus(order);
 	}
 }

@@ -19,14 +19,16 @@ export class CalculationResource {
 	) {}
 
 	async execute(items: INodeExecutionData[], i: number, operation: string): Promise<IDataObject> {
-		const result = await this.executeMethod(operation);
+		const result = await this.executeMethod(items, i, operation);
 		return result as unknown as IDataObject;
 	}
 
-	private async executeMethod(operation: string): Promise<IWebSocketResponse> {
+	private async executeMethod(items: INodeExecutionData[], i: number, operation: string): Promise<IWebSocketResponse> {
 		switch (operation) {
 			case 'getCommissionDef':
-				return this.getCommissionDef();
+				const symbol = this.executeFunctions.getNodeParameter('symbol', i);
+				const volume = this.executeFunctions.getNodeParameter('volume', i);
+				return this.getCommissionDef(symbol, volume);
 			case 'getMarginTrade':
 				return this.getMarginTrade();
 			case 'getProfitCalculation':
@@ -39,18 +41,15 @@ export class CalculationResource {
 		}
 	}
 
-	private async getCommissionDef(): Promise<ICommissionResponse> {
-		// TODO: Implement parameters
-		return this.calculationOperations.getCommissionDef('', 0);
+	private async getCommissionDef(symbol: string, volume: number): Promise<ICommissionResponse> {
+		return this.calculationOperations.getCommissionDef(symbol, volume);
 	}
 
-	private async getMarginTrade(): Promise<IMarginTradeResponse> {
-		// TODO: Implement parameters
-		return this.calculationOperations.getMarginTrade('', 0);
+	private async getMarginTrade(symbol: string, volume: number): Promise<IMarginTradeResponse> {
+		return this.calculationOperations.getMarginTrade(symbol, volume);
 	}
 
-	private async getProfitCalculation(): Promise<IProfitCalculationResponse> {
-		// TODO: Implement parameters
-		return this.calculationOperations.getProfitCalculation(0, 0, 0, '', 0);
+	private async getProfitCalculation(closePrice: number, cmd: number, openPrice: number, symbol: string, volume: number): Promise<IProfitCalculationResponse> {
+		return this.calculationOperations.getProfitCalculation(closePrice, cmd, openPrice, symbol, volume);
 	}
 }

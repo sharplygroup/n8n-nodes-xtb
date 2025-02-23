@@ -33,7 +33,6 @@ export class DmaResource {
 	}
 
 	private async getStepRules(): Promise<any> {
-		// TODO: Implement parameters
 		return this.dmaOperations.getStepRules();
 	}
 }
