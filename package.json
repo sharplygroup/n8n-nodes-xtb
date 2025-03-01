@@ -1,6 +1,6 @@
 {
   "name": "@sharplygroup/n8n-nodes-xtb",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "n8n community node for XTB (X-Trade Brokers) trading platform integration using WebSocket API",
   "keywords": [
     "n8n-community-node-package"
